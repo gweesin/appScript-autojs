@@ -1,5 +1,6 @@
-"ui";
-const OPERATION_DELAY = 3000
+// "ui";
+
+const OPERATION_DELAY = 5000
 
 /**
  * app基类构造方法
@@ -61,151 +62,147 @@ function AppObject(id, name, packageName, startUpDelay) {
 
 const APP = new AppObject()
 
-try {
-  ui.layout(
-    <horizontal>
-      <radiogroup>
-        <checkbox id="Fliggy" text="飞猪签到里程"></checkbox>
-        <checkbox id="JD" text="京东签到京豆"></checkbox>
-        <checkbox id="JianShu" text="简书转盘抽奖"></checkbox>
-        <checkbox id="Ele" text="饿了么"></checkbox>
-      </radiogroup>
-      <radiogroup>
-        <checkbox id="Msg" text="口袋梦三国签到"></checkbox>
-        <checkbox id="Bilibili" text="B站签到"></checkbox>
-        <checkbox id="Alipay" text="支付宝积分"></checkbox>
-        <checkbox id="Cpdaily" text="今日校园"></checkbox>
-      </radiogroup>
-      <radiogroup>
-        <checkbox id="Taobao" text="淘宝"></checkbox>
-        <checkbox id="QQMusic" text="QQ音乐"></checkbox>
-        <checkbox id="BaiduMap" text="百度地图"></checkbox>
-      </radiogroup>
-      <button id="confirm" text="确定" />
-    </horizontal>
+function signInFliggy() {}
+
+function signInJD() {
+  text('领京豆').findOne(5000).parent().click()
+  text('签到领京豆').findOne(5000).parent().click()
+}
+
+function signInJianShu() {
+  // sleep(3000)
+  id('tab_mine').findOne().click()
+}
+
+function signInMsg() {
+  // sleep(5000)
+  id('home_ll_btn1').findOne().click()
+}
+
+function signInBilibili() {
+  // sleep(3000)
+  text('我的').findOne().parent().click()
+  // sleep(2000)
+
+  text('更多').findOne().parent().click()
+}
+
+function signInAlipay() {
+  text('我的').findOne(1500).parent().click()
+  // sleep(2000)
+  text('支付宝会员').findOne(1500).parent().click()
+  // sleep(1500)
+  text('领积分').findOne(1500).click()
+  // sleep(1000)
+  for (let i = 0; i < 5; i++) {
+    text('点击领取').findOne(1500).parent().click()
+    // sleep(1500)
+  }
+}
+
+function signInTaobao() {
+  desc('领淘金币').findOne(1500).click()
+
+  text('立即签到').findOne(2000).parent().click()
+}
+
+function signInQQMusic() {
+  text('我的').findOne(5000).parent().click()
+  text('活动中心').findOne(2000).parent().click()
+  text('立即领取').findOne(3000).click()
+}
+
+function signInBaiduMap() {
+  clickWidget(desc('个人中心').findOne(4000).parent())
+
+  clickWidget(text('签  到').findOne(4000))
+
+  clickWidget(
+    textMatches(/[0-9]+人已签到/)
+      .findOne(4000)
+      .parent()
   )
 
-  ui.confirm.click(() => {
-    // auto.waitFor()
+  // sleep(1000)
+  if (text('立即领取').exists()) {
+    text('立即领取').click()
+    text('去领金币').findOne(4000).parent().click()
 
-    let list = [
-      new AppObject('Fliggy', '飞猪', 'com.taobao.trip'),
-      new AppObject('JD', '京东', 'com.jingdong.app.mall'),
-      new AppObject('JianShu', '简书', 'com.jianshu.haruki'),
-      new AppObject('Msg', '口袋梦三国', 'com.dh.mengsanguoolex'),
-      new AppObject('Bilibili', '哔哩哔哩', 'tv.danmaku.bili'),
-      new AppObject('Alipay', '支付宝', 'com.eg.android.AlipayGphone', 1500),
-      new AppObject('Taobao', '淘宝', 'com.taobao.taobao'),
-      new AppObject('QQMusic', 'QQ音乐', 'com.tencent.qqmusic'),
-      new AppObject('BaiduMap', '百度地图', 'com.baidu.BaiduMap'),
-      new AppObject('Ele', '饿了么', 'me.ele'),
-      new AppObject('Cpdaily', '今日校园', 'com.wisedu.cpdaily'),
-    ]
-    list.forEach((appObject) => {
-      let isSelected = ui[appObject.id].checked
-      if (isSelected === true) {
-        toast(appObject.name)
-        appObject.launch()
-        sleep(5000)
-        appObject.signIn()
-        sleep(2000)
+    textMatches(/\+[0-9]+金币/)
+      .findOne(4000)
+      .click()
+  }
+}
 
-        // appObject.killProgress()
-      }
-    })
-  })
+function signInEle() {
+  APP.click(getOneWidget('签到赢饭钱', 'desc'))
 
-  function signInFliggy() {}
+  APP.click(getOneWidget('立即签到', 'text'))
 
-  function signInJD() {
-    text('领京豆').findOne(5000).parent().click()
-    text('签到领京豆').findOne(5000).parent().click()
+  APP.click(getOneWidget('¥', 'text'))
+
+  APP.click(getOneWidget('分享可再翻一次卡牌', 'text'))
+  APP.click(getOneWidget('微信', 'text'))
+}
+
+function signInCpdaily() {
+  // sleep(5000)
+  APP.click(getOneWidget('签到领福利', 'text'))
+}
+function main() {
+  let selections = dialogs.multiChoice('选择要运行的模块', [
+    '飞猪',
+    '京东',
+    '简书',
+    '口袋梦三国',
+    '哔哩哔哩',
+    '支付宝',
+    '淘宝',
+    'QQ音乐',
+    '百度地图',
+    '饿了么',
+    '今日校园',
+    '拼多多',
+  ])
+  if (!selections || selections.length === 0) {
+    toastLog('请选择需要执行的功能')
+    exit()
   }
 
-  function signInJianShu() {
-    // sleep(3000)
-    id('tab_mine').findOne().click()
-  }
-
-  function signInMsg() {
-    sleep(5000)
-    id('home_ll_btn1').findOne().click()
-  }
-
-  function signInBilibili() {
-    sleep(3000)
-    text('我的').findOne().parent().click()
-    sleep(2000)
-
-    text('更多').findOne().parent().click()
-  }
-
-  function signInAlipay() {
-    text('我的').findOne(1500).parent().click()
-    sleep(2000)
-    text('支付宝会员').findOne(1500).parent().click()
-    sleep(1500)
-    text('领积分').findOne(1500).click()
-    sleep(1000)
-    for (let i = 0; i < 5; i++) {
-      text('点击领取').findOne().parent().click()
-      sleep(1500)
-    }
-  }
-
-  function signInTaobao() {
-    desc('领淘金币').findOne(1500).click()
-
-    text('立即签到').findOne(2000).parent().click()
-  }
-
-  function signInQQMusic() {
-    text('我的').findOne(5000).parent().click()
-    text('活动中心').findOne(2000).parent().click()
-    text('立即领取').findOne(3000).click()
-  }
-
-  function signInBaiduMap() {
-    clickWidget(desc('个人中心').findOne(4000).parent())
-
-    clickWidget(text('签  到').findOne(4000))
-
-    clickWidget(
-      textMatches(/[0-9]+人已签到/)
-        .findOne(4000)
-        .parent()
-    )
-
-    sleep(1000)
-    if (text('立即领取').exists()) {
-      text('立即领取').click()
-      text('去领金币').findOne(4000).parent().click()
-
-      textMatches(/\+[0-9]+金币/)
-        .findOne(4000)
-        .click()
-    }
-  }
-
-  function signInEle() {
-    APP.click(getOneWidget('签到赢饭钱', 'desc'))
-
-    APP.click(getOneWidget('立即签到', 'text'))
-
-    APP.click(getOneWidget('¥', 'text'))
-
-    APP.click(getOneWidget('分享可再翻一次卡牌', 'text'))
-    APP.click(getOneWidget('微信', 'text'))
-  }
-
-  function signInCpdaily() {
-    APP.click()
-  }
-  
+  let list = [
+    new AppObject('Fliggy', '飞猪', 'com.taobao.trip'),
+    new AppObject('JD', '京东', 'com.jingdong.app.mall'),
+    new AppObject('JianShu', '简书', 'com.jianshu.haruki'),
+    new AppObject('Msg', '口袋梦三国', 'com.dh.mengsanguoolex'),
+    new AppObject('Bilibili', '哔哩哔哩', 'tv.danmaku.bili'),
+    new AppObject('Alipay', '支付宝', 'com.eg.android.AlipayGphone', 1500),
+    new AppObject('Taobao', '淘宝', 'com.taobao.taobao'),
+    new AppObject('QQMusic', 'QQ音乐', 'com.tencent.qqmusic'),
+    new AppObject('BaiduMap', '百度地图', 'com.baidu.BaiduMap'),
+    new AppObject('Ele', '饿了么', 'me.ele'),
+    new AppObject('Cpdaily', '今日校园', 'com.wisedu.cpdaily'),
+    new AppObject('Pinduoduo', '拼多多', 'com.xunmeng.pinduoduo'),
+  ]
+  // list.forEach((appObject) => {
+  //   let isSelected = ui[appObject.id].checked
+  //   if (isSelected === true) {
+  //     toast(appObject.name)
+  //     appObject.launch()
+  //     APP.click(getOneWidget('跳过', 'textMatches', false, 10000))
+  //     appObject.signIn()
+  //     // appObject.killProgress()
+  //   }
+  // })
+  // let appObject = new AppObject('Cpdaily', '今日校园', 'com.wisedu.cpdaily')
+  // toast(appObject.name)
+  // appObject.launch()
+  // APP.click(getOneWidget('跳过', 'textMatches', false, 10000))
+  // appObject.signIn()
+}
+try {
+  main()
 } catch (err) {
-  console.log(err)
-  toast('发生异常，程序终止啦')
-  exit()
+  toastLog(err)
 }
 
 /**
@@ -224,11 +221,15 @@ function getOneWidget(str, method, parent, delay) {
   let method = method || 'text'
   let parent = parent || false
   let delay = delay || OPERATION_DELAY
+  let widget = null
 
   let funcStr = method + "('" + str + "').findOne(" + delay + ')'
   if (parent === false) {
-    return eval(funcStr)
+    return (widget = eval(funcStr))
   }
 
+  if (widget === null) {
+    return null
+  }
   return eval(funcStr + '.parent()')
 }

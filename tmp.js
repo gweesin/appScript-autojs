@@ -55,4 +55,28 @@
 
 // text('分享可再翻一次卡牌').findOne(4000).click()
 // text('微信').findOne().click()
+// clicka = (widget) => {
+//   // 控件不存在
+//   if (!widget) {
+//     return false
+//   }
 
+//   // 控件可点击
+//   if (widget.clickable() === true) {
+//     return widget.click()
+//   }
+
+//   let rect = widget.bounds()
+//   return click(rect.centerX(), rect.centerY())
+// }
+// let widget = text('签到领福利').findOne()
+// // toastLog(widget)
+// var i = dialogs.multiChoice("下列作品出自李贽的是", ["《焚书》", "《西湖寻梦》", "《高太史全集》", "《续焚烧书》", "《藏书》"]);
+// toast("选择了: " + i);
+// if(i.length == 2 && i.toString() == [0, 4].toString()){
+//     toast("答对辣");
+// }else{
+//     toast("答错辣");
+// }
+
+log(555);
