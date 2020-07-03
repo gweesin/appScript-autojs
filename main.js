@@ -22,6 +22,7 @@ ui.layout(
       <checkbox id="Taobao" text="淘宝"></checkbox>
       <checkbox id="QQMusic" text="QQ音乐"></checkbox>
       <checkbox id="BaiduMap" text="百度地图"></checkbox>
+      <checkbox id="QDReader" text="起点读书"></checkbox>
     </radiogroup>
     <button id="confirm" text="确定" />
   </horizontal>
@@ -104,10 +105,10 @@ function signInJD() {
  * 简书转盘抽奖
  */
 function signInJianShu() {
-  APP.click(getOneWidget('tab_mine','id'))
-  APP.click(getOneWidget('天天抽奖','text'))
-  APP.click(getOneWidget('android.view.View','className'))
-  click(560,1560)
+  APP.click(getOneWidget('tab_mine', 'id'))
+  APP.click(getOneWidget('天天抽奖', 'text'))
+  APP.click(getOneWidget('android.view.View', 'className'))
+  click(560, 1560)
 }
 
 function signInMsg() {
@@ -194,14 +195,47 @@ function signInCpdaily() {
  * 美团红包签到
  */
 function signInMeituan() {
-  APP.click(getOneWidget('红包签到','desc'))
-
-
+  APP.click(getOneWidget('红包签到', 'desc'))
 }
 
+/**
+ * 百度贴吧签到
+ */
 function signInTieba() {
-  APP.click(getOneWidget('进吧','text'))
-  APP.click(getOneWidget('签到','desc'))
+  APP.click(getOneWidget('进吧', 'text'))
+  APP.click(getOneWidget('签到', 'desc'))
+}
+
+/**
+ * 起点读书
+ */
+function signInQDReader() {
+  APP.click(getOneWidget('fClose', 'id'))
+  APP.click(getOneWidget(/领[0-9]+点/, 'textMatches'))
+  APP.click(getOneWidget('今日奖励翻倍', 'text'))
+
+  // 看广告
+  sleep(20 * 1000)
+  APP.click(getOneWidget('android.widget.ImageView', 'className')) // 关闭广告
+  APP.click(getOneWidget('抽奖', 'text'))
+
+  let flag = false
+  while (true) {
+    if (APP.click(getOneWidget('抽 奖', 'text'))) {
+      flag = true
+      continue
+    }
+    if (APP.click(getOneWidget('看视频抽奖喜+1', 'text'))) {
+      sleep(20 * 1000)
+      APP.click(getOneWidget('android.widget.ImageView', 'className')) // 关闭广告
+      flag = true
+      continue
+    }
+
+    if (flag === false) {
+      break
+    }
+  }
 }
 
 function main() {
@@ -220,6 +254,7 @@ function main() {
     new AppObject('Pinduoduo', '拼多多', 'com.xunmeng.pinduoduo'),
     new AppObject('Meituan', '美团', 'com.sankuai.meituan'),
     new AppObject('Tieba', '百度贴吧', 'com.baidu.tieba'),
+    new AppObject('QDReader', '起点读书', 'com.qidian.QDReader'),
   ]
   list.forEach((appObject) => {
     let isSelected = ui[appObject.id].checked
