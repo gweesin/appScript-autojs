@@ -9,12 +9,14 @@ ui.layout(
       <checkbox id="JianShu" text="简书转盘抽奖"></checkbox>
       <checkbox id="Ele" text="饿了么"></checkbox>
       <checkbox id="Pinduoduo" text="拼多多现金签到"></checkbox>
+      <checkbox id="Meituan" text="美团红包签到"></checkbox>
     </radiogroup>
     <radiogroup>
       <checkbox id="Msg" text="口袋梦三国签到"></checkbox>
       <checkbox id="Bilibili" text="B站签到"></checkbox>
       <checkbox id="Alipay" text="支付宝-签到积分"></checkbox>
       <checkbox id="Cpdaily" text="今日校园签到"></checkbox>
+      <checkbox id="Tieba" text="百度贴吧签到"></checkbox>
     </radiogroup>
     <radiogroup>
       <checkbox id="Taobao" text="淘宝"></checkbox>
@@ -98,9 +100,14 @@ function signInJD() {
   text('签到领京豆').findOne(5000).parent().click()
 }
 
+/**
+ * 简书转盘抽奖
+ */
 function signInJianShu() {
-  sleep(3000)
-  id('tab_mine').findOne().click()
+  APP.click(getOneWidget('tab_mine','id'))
+  APP.click(getOneWidget('天天抽奖','text'))
+  APP.click(getOneWidget('android.view.View','className'))
+  click(560,1560)
 }
 
 function signInMsg() {
@@ -183,8 +190,23 @@ function signInCpdaily() {
   APP.click(getOneWidget('点此打卡', 'text'))
 }
 
+/**
+ * 美团红包签到
+ */
+function signInMeituan() {
+  APP.click(getOneWidget('红包签到','desc'))
+
+
+}
+
+function signInTieba() {
+  APP.click(getOneWidget('进吧','text'))
+  APP.click(getOneWidget('签到','desc'))
+}
+
 function main() {
   let list = [
+    new AppObject('Cpdaily', '今日校园', 'com.wisedu.cpdaily'),
     new AppObject('Fliggy', '飞猪', 'com.taobao.trip'),
     new AppObject('JD', '京东', 'com.jingdong.app.mall'),
     new AppObject('JianShu', '简书', 'com.jianshu.haruki'),
@@ -195,8 +217,9 @@ function main() {
     new AppObject('QQMusic', 'QQ音乐', 'com.tencent.qqmusic'),
     new AppObject('BaiduMap', '百度地图', 'com.baidu.BaiduMap'),
     new AppObject('Ele', '饿了么', 'me.ele'),
-    new AppObject('Cpdaily', '今日校园', 'com.wisedu.cpdaily'),
     new AppObject('Pinduoduo', '拼多多', 'com.xunmeng.pinduoduo'),
+    new AppObject('Meituan', '美团', 'com.sankuai.meituan'),
+    new AppObject('Tieba', '百度贴吧', 'com.baidu.tieba'),
   ]
   list.forEach((appObject) => {
     let isSelected = ui[appObject.id].checked
@@ -204,6 +227,7 @@ function main() {
       toast(appObject.name)
       appObject.launch()
       APP.click(getOneWidget('跳过', 'textMatches'))
+      sleep(2000)
       appObject.signIn()
       // appObject.killProgress()
     }
