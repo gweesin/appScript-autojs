@@ -1,5 +1,5 @@
 "ui";
-const OPERATION_DELAY = 5000
+const OPERATION_DELAY = 6000
 
 ui.layout(
   <horizontal>
@@ -26,8 +26,6 @@ ui.layout(
 )
 
 ui.confirm.click(() => {
-  // thread.interrupt()
-  // ui.finish()
   threads.start(function () {
     main()
   })
@@ -176,9 +174,13 @@ function signInEle() {
   APP.click(getOneWidget('微信', 'text'))
 }
 
+/**
+ * 今日校园打卡
+ */
 function signInCpdaily() {
-  sleep(5000)
   APP.click(getOneWidget('签到领福利', 'text'))
+
+  APP.click(getOneWidget('点此打卡', 'text'))
 }
 
 function main() {
@@ -201,7 +203,7 @@ function main() {
     if (isSelected === true) {
       toast(appObject.name)
       appObject.launch()
-      APP.click(getOneWidget('跳过', 'textMatches', false, 10000))
+      APP.click(getOneWidget('跳过', 'textMatches'))
       appObject.signIn()
       // appObject.killProgress()
     }
