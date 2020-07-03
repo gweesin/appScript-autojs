@@ -13,11 +13,12 @@ ui.layout(
       <checkbox id="CloudMusic" text="网易云音乐"></checkbox>
     </radiogroup>
     <radiogroup>
-      <checkbox id="Msg" text="口袋梦三国签到"></checkbox>
-      <checkbox id="Bilibili" text="B站签到"></checkbox>
+      <checkbox id="Msg" text="口袋梦三国"></checkbox>
+      <checkbox id="Bilibili" text="哔哩哔哩"></checkbox>
       <checkbox id="Alipay" text="支付宝-签到积分"></checkbox>
-      <checkbox id="Cpdaily" text="今日校园签到"></checkbox>
-      <checkbox id="Tieba" text="百度贴吧签到"></checkbox>
+      <checkbox id="Cpdaily" text="今日校园"></checkbox>
+      <checkbox id="Tieba" text="百度贴吧"></checkbox>
+      <checkbox id="Dianping" text="大众点评"></checkbox>
     </radiogroup>
     <radiogroup>
       <checkbox id="Taobao" text="淘宝"></checkbox>
@@ -247,6 +248,16 @@ function signInCloudMusic() {
   APP.click(getOneWidget('签到', 'text'))
 }
 
+/**
+ * 大众点评签到
+ */
+function signInDianping() {
+  APP.click(getOneWidget('关闭', 'desc', false, 2000))
+  APP.click(getOneWidget('我的', 'text'))
+  APP.click(getOneWidget('每日福利', 'text'))
+  APP.click(getOneWidget('签到领奖', 'text'))
+}
+
 function main() {
   let list = [
     new AppObject('Cpdaily', '今日校园', 'com.wisedu.cpdaily'),
@@ -265,6 +276,7 @@ function main() {
     new AppObject('Tieba', '百度贴吧', 'com.baidu.tieba'),
     new AppObject('QDReader', '起点读书', 'com.qidian.QDReader'),
     new AppObject('CloudMusic', '网易云音乐', 'com.netease.cloudmusic'),
+    new AppObject('Dianping', '大众点评', 'com.dianping.v1'),
   ]
   list.forEach((appObject) => {
     let isSelected = ui[appObject.id].checked
