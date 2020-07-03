@@ -72,6 +72,4 @@ function AppObject(id, name, packageName, startUpDelay) {
 }
 APP = new AppObject()
 
-// APP.click(getOneWidget('看视频抽奖喜+1', 'text'))
-
-APP.click(getOneWidget('android.widget.ImageView', 'className')) // 关闭广告
+APP.click(getOneWidget('立刻签到', 'desc'))
