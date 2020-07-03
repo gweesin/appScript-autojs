@@ -10,6 +10,7 @@ ui.layout(
       <checkbox id="Ele" text="饿了么"></checkbox>
       <checkbox id="Pinduoduo" text="拼多多现金签到"></checkbox>
       <checkbox id="Meituan" text="美团红包签到"></checkbox>
+      <checkbox id="CloudMusic" text="网易云音乐"></checkbox>
     </radiogroup>
     <radiogroup>
       <checkbox id="Msg" text="口袋梦三国签到"></checkbox>
@@ -238,6 +239,14 @@ function signInQDReader() {
   }
 }
 
+/**
+ * 网易云音乐签到
+ */
+function signInCloudMusic() {
+  APP.click(getOneWidget('抽屉菜单', 'desc'))
+  APP.click(getOneWidget('签到', 'text'))
+}
+
 function main() {
   let list = [
     new AppObject('Cpdaily', '今日校园', 'com.wisedu.cpdaily'),
@@ -255,6 +264,7 @@ function main() {
     new AppObject('Meituan', '美团', 'com.sankuai.meituan'),
     new AppObject('Tieba', '百度贴吧', 'com.baidu.tieba'),
     new AppObject('QDReader', '起点读书', 'com.qidian.QDReader'),
+    new AppObject('CloudMusic', '网易云音乐', 'com.netease.cloudmusic'),
   ]
   list.forEach((appObject) => {
     let isSelected = ui[appObject.id].checked
