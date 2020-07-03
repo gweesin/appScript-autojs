@@ -7,24 +7,24 @@ ui.layout(
       <checkbox id="Fliggy" text="飞猪签到里程"></checkbox>
       <checkbox id="JD" text="京东签到京豆"></checkbox>
       <checkbox id="JianShu" text="简书转盘抽奖"></checkbox>
-      <checkbox id="Ele" text="饿了么"></checkbox>
-      <checkbox id="Pinduoduo" text="拼多多现金签到"></checkbox>
       <checkbox id="Meituan" text="美团红包签到"></checkbox>
-      <checkbox id="CloudMusic" text="网易云音乐"></checkbox>
+      <checkbox id="Alipay" text="支付宝签到积分"></checkbox>
+      <checkbox id="Pinduoduo" text="拼多多现金签到"></checkbox>
     </radiogroup>
     <radiogroup>
+      <checkbox id="CloudMusic" text="网易云音乐"></checkbox>
       <checkbox id="Msg" text="口袋梦三国"></checkbox>
+      <checkbox id="QQMusic" text="QQ音乐"></checkbox>
+      <checkbox id="Ele" text="饿了么"></checkbox>
+      <checkbox id="Taobao" text="淘宝"></checkbox>
+    </radiogroup>
+    <radiogroup>
       <checkbox id="Bilibili" text="哔哩哔哩"></checkbox>
-      <checkbox id="Alipay" text="支付宝-签到积分"></checkbox>
       <checkbox id="Cpdaily" text="今日校园"></checkbox>
       <checkbox id="Tieba" text="百度贴吧"></checkbox>
-      <checkbox id="Dianping" text="大众点评"></checkbox>
-    </radiogroup>
-    <radiogroup>
-      <checkbox id="Taobao" text="淘宝"></checkbox>
-      <checkbox id="QQMusic" text="QQ音乐"></checkbox>
       <checkbox id="BaiduMap" text="百度地图"></checkbox>
       <checkbox id="QDReader" text="起点读书"></checkbox>
+      <checkbox id="Dianping" text="大众点评"></checkbox>
     </radiogroup>
     <button id="confirm" text="确定" />
   </horizontal>
