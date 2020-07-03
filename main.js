@@ -1,5 +1,26 @@
 "ui";
 const OPERATION_DELAY = 6000
+let list = [
+  new AppObject('Cpdaily', '今日校园', 'com.wisedu.cpdaily'),
+  new AppObject('Fliggy', '飞猪', 'com.taobao.trip'),
+  new AppObject('JD', '京东', 'com.jingdong.app.mall'),
+  new AppObject('JianShu', '简书', 'com.jianshu.haruki'),
+  new AppObject('Msg', '口袋梦三国', 'com.dh.mengsanguoolex'),
+  new AppObject('Bilibili', '哔哩哔哩', 'tv.danmaku.bili'),
+  new AppObject('Alipay', '支付宝', 'com.eg.android.AlipayGphone', 1500),
+  new AppObject('Taobao', '淘宝', 'com.taobao.taobao'),
+  new AppObject('QQMusic', 'QQ音乐', 'com.tencent.qqmusic'),
+  new AppObject('BaiduMap', '百度地图', 'com.baidu.BaiduMap'),
+  new AppObject('Ele', '饿了么', 'me.ele'),
+  new AppObject('Pinduoduo', '拼多多', 'com.xunmeng.pinduoduo'),
+  new AppObject('Meituan', '美团', 'com.sankuai.meituan'),
+  new AppObject('Tieba', '百度贴吧', 'com.baidu.tieba'),
+  new AppObject('QDReader', '起点读书', 'com.qidian.QDReader'),
+  new AppObject('CloudMusic', '网易云音乐', 'com.netease.cloudmusic'),
+  new AppObject('Dianping', '大众点评', 'com.dianping.v1'),
+  new AppObject('Wifimanager', '腾讯wifi管家', 'com.tencent.wifimanager'),
+  new AppObject('Karaoke', '全民K歌', 'com.tencent.karaoke'),
+]
 
 ui.layout(
   <horizontal>
@@ -276,27 +297,6 @@ function signInKaraoke() {
 }
 
 function main() {
-  let list = [
-    new AppObject('Cpdaily', '今日校园', 'com.wisedu.cpdaily'),
-    new AppObject('Fliggy', '飞猪', 'com.taobao.trip'),
-    new AppObject('JD', '京东', 'com.jingdong.app.mall'),
-    new AppObject('JianShu', '简书', 'com.jianshu.haruki'),
-    new AppObject('Msg', '口袋梦三国', 'com.dh.mengsanguoolex'),
-    new AppObject('Bilibili', '哔哩哔哩', 'tv.danmaku.bili'),
-    new AppObject('Alipay', '支付宝', 'com.eg.android.AlipayGphone', 1500),
-    new AppObject('Taobao', '淘宝', 'com.taobao.taobao'),
-    new AppObject('QQMusic', 'QQ音乐', 'com.tencent.qqmusic'),
-    new AppObject('BaiduMap', '百度地图', 'com.baidu.BaiduMap'),
-    new AppObject('Ele', '饿了么', 'me.ele'),
-    new AppObject('Pinduoduo', '拼多多', 'com.xunmeng.pinduoduo'),
-    new AppObject('Meituan', '美团', 'com.sankuai.meituan'),
-    new AppObject('Tieba', '百度贴吧', 'com.baidu.tieba'),
-    new AppObject('QDReader', '起点读书', 'com.qidian.QDReader'),
-    new AppObject('CloudMusic', '网易云音乐', 'com.netease.cloudmusic'),
-    new AppObject('Dianping', '大众点评', 'com.dianping.v1'),
-    new AppObject('Wifimanager', '腾讯wifi管家', 'com.tencent.wifimanager'),
-    new AppObject('Karaoke', '全民K歌', 'com.tencent.karaoke'),
-  ]
   list.forEach((appObject) => {
     let isSelected = ui[appObject.id].checked
     if (isSelected === true) {
