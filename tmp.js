@@ -71,5 +71,4 @@ function AppObject(id, name, packageName, startUpDelay) {
   }
 }
 APP = new AppObject()
-
-APP.click(getOneWidget('立刻签到', 'desc'))
+APP.click(getOneWidget(/家庭积分/, 'textMatches', true))
