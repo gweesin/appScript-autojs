@@ -1,82 +1,235 @@
-// click('里程')
-// var tmp = text("里程").findOne()
-// toast(tmp)
-// tmp.click()
+// "ui";
 
-// var sendButton = text("发送").findOne();
-// sendButton.click();
+const OPERATION_DELAY = 5000
 
-// while(true){
-//   className("EditText").findOne().setText("何铭杰...");
-//   text("发送").findOne().click();
-// }
+/**
+ * app基类构造方法
+ *
+ * @param {string} id app英文名称
+ * @param {string} name app名称
+ * @param {string} packageName app的包名
+ * @param {number} startUpDelay 启动app的延迟时间，单位毫秒; 默认5000
+ */
+function AppObject(id, name, packageName, startUpDelay) {
+  const defaultStartUpDelay = 5000
 
-// click('领京豆')
-// textMatches('领京豆').click()
-// text("领京豆").click()
-// text('签到领京豆').click()
-// toast("555")
-// click('签到领京豆')
-// toast(5)
-// id('sigle_tab_bg').click()
-// text('支付宝会员').click()
-// textMatches('待领取').click()
-// click('我的')
-// text("我的").findOne().click()
-// id("tab_mine").findOne(500).click()
+  this.id = id
+  this.name = name
+  this.packageName = packageName
+  this.startUpDelay = startUpDelay || defaultStartUpDelay
 
-// toast(5)
-// // text('签到').findOne().click()
-// id('home_ll_btn1').findOne().click()
+  /**
+   * 点击控件
+   *
+   * @param {Widget} widget 控件
+   */
+  this.click = (widget) => {
+    // 控件不存在
+    if (!widget) {
+      return false
+    }
 
-// bilibili
-// launch('tv.danmaku.bili')
-// sleep(5000)
+    // 控件可点击
+    if (widget.clickable() === true) {
+      return widget.click()
+    }
 
-// desc('领淘金币').findOne(1500).click()
-// sleep(3000)
+    let rect = widget.bounds()
+    return click(rect.centerX(), rect.centerY())
+  }
 
-// text('更多').findOne().parent().click()
-// sleep(3000)
+  /**
+   * 运行app
+   */
+  this.launch = () => {
+    app.launchPackage(this.packageName)
+  }
 
-// text('签到').findOne().click()
+  /**
+   * 签到
+   */
+  this.signIn = () => {
+    return eval('signIn' + this.id + '()')
+  }
 
-// launchPackage('com.tencent.qqmusic')
-// text('我的').findOne(5000).parent().click()
-// text('活动中心').findOne(2000).parent().click()
-// text('立即领取').findOne(3000).click()
-// text('领积分').findOne(1500).click()
+  /**
+   * 关闭app
+   */
+  this.killProgress = () => {
+    shell('am force-stop ' + this.packageName, true)
+  }
+}
 
-// id('imgCloseHomePageDialog').findOne(5000).click() // 关闭广告
+const APP = new AppObject()
 
-// desc('个人中心').findOne(4000).parent().click()
-// let widget = desc('签到赢饭钱').findOne(4000)
-// toast(widget.clickable())
+function signInFliggy() {}
 
-// text('分享可再翻一次卡牌').findOne(4000).click()
-// text('微信').findOne().click()
-// clicka = (widget) => {
-//   // 控件不存在
-//   if (!widget) {
-//     return false
-//   }
+function signInJD() {
+  text('领京豆').findOne(5000).parent().click()
+  text('签到领京豆').findOne(5000).parent().click()
+}
 
-//   // 控件可点击
-//   if (widget.clickable() === true) {
-//     return widget.click()
-//   }
+function signInJianShu() {
+  // sleep(3000)
+  id('tab_mine').findOne().click()
+}
 
-//   let rect = widget.bounds()
-//   return click(rect.centerX(), rect.centerY())
-// }
-// let widget = text('签到领福利').findOne()
-// // toastLog(widget)
-// var i = dialogs.multiChoice("下列作品出自李贽的是", ["《焚书》", "《西湖寻梦》", "《高太史全集》", "《续焚烧书》", "《藏书》"]);
-// toast("选择了: " + i);
-// if(i.length == 2 && i.toString() == [0, 4].toString()){
-//     toast("答对辣");
-// }else{
-//     toast("答错辣");
-// }
+function signInMsg() {
+  // sleep(5000)
+  id('home_ll_btn1').findOne().click()
+}
 
-log(555);
+function signInBilibili() {
+  // sleep(3000)
+  text('我的').findOne().parent().click()
+  // sleep(2000)
+
+  text('更多').findOne().parent().click()
+}
+
+function signInAlipay() {
+  text('我的').findOne(1500).parent().click()
+  // sleep(2000)
+  text('支付宝会员').findOne(1500).parent().click()
+  // sleep(1500)
+  text('领积分').findOne(1500).click()
+  // sleep(1000)
+  for (let i = 0; i < 5; i++) {
+    text('点击领取').findOne(1500).parent().click()
+    // sleep(1500)
+  }
+}
+
+function signInTaobao() {
+  desc('领淘金币').findOne(1500).click()
+
+  text('立即签到').findOne(2000).parent().click()
+}
+
+function signInQQMusic() {
+  text('我的').findOne(5000).parent().click()
+  text('活动中心').findOne(2000).parent().click()
+  text('立即领取').findOne(3000).click()
+}
+
+function signInBaiduMap() {
+  clickWidget(desc('个人中心').findOne(4000).parent())
+
+  clickWidget(text('签  到').findOne(4000))
+
+  clickWidget(
+    textMatches(/[0-9]+人已签到/)
+      .findOne(4000)
+      .parent()
+  )
+
+  // sleep(1000)
+  if (text('立即领取').exists()) {
+    text('立即领取').click()
+    text('去领金币').findOne(4000).parent().click()
+
+    textMatches(/\+[0-9]+金币/)
+      .findOne(4000)
+      .click()
+  }
+}
+
+function signInEle() {
+  APP.click(getOneWidget('签到赢饭钱', 'desc'))
+
+  APP.click(getOneWidget('立即签到', 'text'))
+
+  APP.click(getOneWidget('¥', 'text'))
+
+  APP.click(getOneWidget('分享可再翻一次卡牌', 'text'))
+  APP.click(getOneWidget('微信', 'text'))
+}
+
+function signInCpdaily() {
+  // sleep(5000)
+  APP.click(getOneWidget('签到领福利', 'text'))
+}
+function main() {
+  let selections = dialogs.multiChoice('选择要运行的模块', [
+    '飞猪',
+    '京东',
+    '简书',
+    '口袋梦三国',
+    '哔哩哔哩',
+    '支付宝',
+    '淘宝',
+    'QQ音乐',
+    '百度地图',
+    '饿了么',
+    '今日校园',
+    '拼多多',
+  ])
+  if (!selections || selections.length === 0) {
+    toastLog('请选择需要执行的功能')
+    exit()
+  }
+
+  let list = [
+    new AppObject('Fliggy', '飞猪', 'com.taobao.trip'),
+    new AppObject('JD', '京东', 'com.jingdong.app.mall'),
+    new AppObject('JianShu', '简书', 'com.jianshu.haruki'),
+    new AppObject('Msg', '口袋梦三国', 'com.dh.mengsanguoolex'),
+    new AppObject('Bilibili', '哔哩哔哩', 'tv.danmaku.bili'),
+    new AppObject('Alipay', '支付宝', 'com.eg.android.AlipayGphone', 1500),
+    new AppObject('Taobao', '淘宝', 'com.taobao.taobao'),
+    new AppObject('QQMusic', 'QQ音乐', 'com.tencent.qqmusic'),
+    new AppObject('BaiduMap', '百度地图', 'com.baidu.BaiduMap'),
+    new AppObject('Ele', '饿了么', 'me.ele'),
+    new AppObject('Cpdaily', '今日校园', 'com.wisedu.cpdaily'),
+    new AppObject('Pinduoduo', '拼多多', 'com.xunmeng.pinduoduo'),
+  ]
+  // list.forEach((appObject) => {
+  //   let isSelected = ui[appObject.id].checked
+  //   if (isSelected === true) {
+  //     toast(appObject.name)
+  //     appObject.launch()
+  //     APP.click(getOneWidget('跳过', 'textMatches', false, 10000))
+  //     appObject.signIn()
+  //     // appObject.killProgress()
+  //   }
+  // })
+  // let appObject = new AppObject('Cpdaily', '今日校园', 'com.wisedu.cpdaily')
+  // toast(appObject.name)
+  // appObject.launch()
+  // APP.click(getOneWidget('跳过', 'textMatches', false, 10000))
+  // appObject.signIn()
+}
+try {
+  main()
+} catch (err) {
+  toastLog(err)
+}
+
+/**
+ * 获得一个控件
+ *
+ * @param {string} str 相关字符串
+ * @param {string} method 指定方法，默认text
+ * @param {boolean} parent 是否要寻找父控件，默认false
+ * @param {number} delay 指定延迟时间，默认OPERATION_DELAY
+ */
+function getOneWidget(str, method, parent, delay) {
+  if (!str) {
+    return null
+  }
+
+  let method = method || 'text'
+  let parent = parent || false
+  let delay = delay || OPERATION_DELAY
+  let widget = null
+
+  let funcStr = method + "('" + str + "').findOne(" + delay + ')'
+  if (parent === false) {
+    return (widget = eval(funcStr))
+  }
+
+  if (widget === null) {
+    return null
+  }
+  return eval(funcStr + '.parent()')
+}
