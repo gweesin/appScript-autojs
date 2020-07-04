@@ -21,6 +21,9 @@ let list = [
   new AppObject('Wifimanager', '腾讯wifi管家', 'com.tencent.wifimanager'),
   new AppObject('Karaoke', '全民K歌', 'com.tencent.karaoke'),
   new AppObject('Liwo', '梨涡', 'com.jd.campus'),
+  new AppObject('CSDN', 'CSDN', 'net.csdn.csdnplus'),
+  new AppObject('Etao', '一淘', 'com.taobao.etao'),
+  new AppObject('Efuzhou', 'e福州', 'com.digitalchina.mobile.dfhfz1'),
 ]
 
 ui.layout(
@@ -36,11 +39,14 @@ ui.layout(
       <checkbox id="CloudMusic" text="网易云音乐"></checkbox>
       <checkbox id="Msg" text="口袋梦三国"></checkbox>
       <checkbox id="QQMusic" text="QQ音乐"></checkbox>
+      <checkbox id="CSDN" text="CSDN"></checkbox>
       <checkbox id="Pinduoduo" text="拼多多"></checkbox>
       <checkbox id="Ele" text="饿了么"></checkbox>
+      <checkbox id="Efuzhou" text="e福州"></checkbox>
       <checkbox id="Taobao" text="淘宝"></checkbox>
       <checkbox id="JD" text="京东"></checkbox>
       <checkbox id="Liwo" text="梨涡"></checkbox>
+      <checkbox id="Etao" text="一淘"></checkbox>
     </radiogroup>
     <radiogroup>
       <checkbox id="Bilibili" text="哔哩哔哩"></checkbox>
@@ -103,9 +109,11 @@ function AppObject(id, name, packageName, startUpDelay) {
 
   /**
    * 运行app
+   *
+   * @returns {boolean} 如果存在app返回true，否则返回false
    */
   this.launch = () => {
-    app.launchPackage(this.packageName)
+    return app.launchPackage(this.packageName)
   }
 
   /**
@@ -140,7 +148,7 @@ function signInJD() {
   APP.click(getOneWidget('种豆瓜分京豆', 'text'))
 
   // 种京豆，领京豆
-  while(APP.click(getOneWidget(/x[0-9]+/, 'textMatches'))){
+  while (APP.click(getOneWidget(/x[0-9]+/, 'textMatches'))) {
     sleep(1500)
   }
 }
@@ -154,7 +162,7 @@ function signInJianShu() {
   APP.click(getOneWidget('天天抽奖', 'text'))
   sleep(5000)
   APP.click(getOneWidget('android.view.View', 'className'))
-  sleep(10*1000)
+  sleep(10 * 1000)
   click(560, 1560)
 }
 
@@ -243,7 +251,6 @@ function signInEle() {
   APP.click(getOneWidget('微信', 'text'))
   APP.click(getOneWidget('返回', 'desc'))
   APP.click(getOneWidget('品质联盟', 'textMatches'))
-
 }
 
 /**
@@ -377,19 +384,62 @@ function signInLiwo() {
   APP.click(getOneWidget('欣然收下', 'text'))
 }
 
+/**
+ * CSDN签到
+ */
+function signInCSDN() {
+  sleep(6000)
+  click(971, 2097) // 点击"我的"
+  APP.click(getOneWidget('签到', 'text'))
+  sleep(3000)
+  click(540, 1213) // 点击"签到"
+
+  APP.click(getOneWidget('iv_back', 'id')) // 返回
+}
+
+/**
+ * 一淘
+ */
+function signInEtao() {
+  APP.click(getOneWidget('home_market_close', 'id')) // 首页有可能弹出来的广告
+
+  APP.click(getOneWidget('天天领钱', 'text'))
+  APP.click(getOneWidget('点我签到领钱', 'text'))
+}
+
+/**
+ * e福州
+ */
+function signInEfuzhou() {
+  APP.click(getOneWidget('我的', 'text'))
+  APP.click(getOneWidget('签到领福豆', 'text'))
+}
+
 function main() {
+  let selectionLength = 0
   list.forEach((appObject) => {
     let isSelected = ui[appObject.id].checked
     if (isSelected === true) {
-      toast(appObject.name)
-      appObject.launch()
+      selectionLength += 1
+
+      if (appObject.launch() === false) {
+        return toastLog(appObject.name + '未安装')
+      } else {
+        toastLog(appObject.name + '启动中...')
+      }
       APP.click(getOneWidget(/.*跳.*过.*/, 'textMatches'))
       sleep(2000)
       appObject.signIn()
+      toastLog('已完成' + appObject.name + '的签到')
       sleep(2000)
       // appObject.killProgress()
     }
   })
+
+  if(selectionLength === 0){
+    toast('请勾选需要执行的脚本！')
+  }
+  // exit()
 }
 main()
 

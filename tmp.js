@@ -71,4 +71,8 @@ function AppObject(id, name, packageName, startUpDelay) {
   }
 }
 APP = new AppObject()
-APP.click(getOneWidget(/家庭积分/, 'textMatches', true))
+
+// APP.click(getOneWidget('天天领钱', 'text'))
+// APP.click(getOneWidget('点我签到领钱', 'text'))
+APP.click(getOneWidget('home_market_close', 'id')) // 首页有可能弹出来的广告
+
