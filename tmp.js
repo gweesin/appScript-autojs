@@ -74,5 +74,6 @@ APP = new AppObject()
 
 // APP.click(getOneWidget('天天领钱', 'text'))
 // APP.click(getOneWidget('点我签到领钱', 'text'))
-APP.click(getOneWidget('home_market_close', 'id')) // 首页有可能弹出来的广告
-
+// APP.click(getOneWidget('ivCloseAd', 'id', false, 2000))
+// APP.click(getOneWidget('我的', 'text'))
+getOneWidget('ListView', 'className').scrollForward()

@@ -1,0 +1,10 @@
+{
+    "name": "app自动化签到脚本",
+    "main": "main.js",
+    "ignore": [
+        "build"
+    ],
+    "packageName": "com.249.signin",
+    "versionName": "1.0.1",
+    "versionCode": 1
+}

@@ -379,9 +379,14 @@ function signInKaraoke() {
  * 梨涡
  */
 function signInLiwo() {
+  APP.click(getOneWidget('ivCloseAd', 'id', false, 2000))
   APP.click(getOneWidget('ivEventBg', 'id'))
   APP.click(getOneWidget('点击领取', 'text'))
   APP.click(getOneWidget('欣然收下', 'text'))
+
+  // APP.click(getOneWidget('我的', 'text'))
+  // APP.click(getOneWidget('签到领钱', 'text'))
+  // APP.click(getOneWidget('点击领取', 'text'))
 }
 
 /**
@@ -436,7 +441,7 @@ function main() {
     }
   })
 
-  if(selectionLength === 0){
+  if (selectionLength === 0) {
     toast('请勾选需要执行的脚本！')
   }
   // exit()

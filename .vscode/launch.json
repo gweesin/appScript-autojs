@@ -1,0 +1,10 @@
+{
+  "configurations": [
+    {
+      "type": "autojs",
+      "request": "launch",
+      "stopOnEntry": true,
+      "name": "[Auto.js Pro调试]Xiaomi MI 8 undefined"
+    }
+  ]
+}
