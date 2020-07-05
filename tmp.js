@@ -72,23 +72,17 @@ function AppObject(id, name, packageName, startUpDelay) {
 }
 APP = new AppObject()
 
-// APP.click(getOneWidget('天天领钱', 'text'))
-// APP.click(getOneWidget('点我签到领钱', 'text'))
-// APP.click(getOneWidget('ivCloseAd', 'id', false, 2000))
-// APP.click(getOneWidget('我的', 'text'))
-// getOneWidget('ListView', 'className').scrollForward()
-// let activity = currentActivity()
 
-// toastLog(activity)
+// dialogs.multiChoice(, , , )
 
-// let i = waitForActivity("com.tencent.mobileqq.activity.SplashActivity")
-// toastLog(i)
+// var options = ["选项A", "选项B", "选项C", "选项D"]
+// var i = dialogs.multiChoice("请选择一个选项", options);
+// if(i){
+//   toastLog(i)
+//     toast("您选择的是" + options[i]);
+// }else{
+//     toast("您取消了选择");
+// }
 
-var result = shell("am force-stop com.tencent.mm", false);
-toastLog(result);
-console.show();
-if(result.code == 0){
-  toast("执行成功");
-}else{
-  toast("执行失败！请到控制台查看错误信息");
-}
+let i = getOneWidget('照片', 'text')
+toastLog(i.text())

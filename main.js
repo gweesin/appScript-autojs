@@ -24,6 +24,9 @@ let list = [
   new AppObject('CSDN', 'CSDN', 'net.csdn.csdnplus'),
   new AppObject('Etao', '一淘', 'com.taobao.etao'),
   new AppObject('Efuzhou', 'e福州', 'com.digitalchina.mobile.dfhfz1'),
+  new AppObject('YoudaoNote', '有道云笔记', 'com.youdao.note'),
+  new AppObject('Everphoto', '时光相册', 'tc.everphoto'),
+  new AppObject('XiaomiGameCenter', '小米游戏中心', 'com.xiaomi.gamecenter'),
 ]
 
 ui.layout(
@@ -31,12 +34,14 @@ ui.layout(
     <radiogroup>
       <checkbox id="Alipay" text="支付宝签到积分"></checkbox>
       <checkbox id="Fliggy" text="飞猪签到里程"></checkbox>
+      <checkbox id="XiaomiGameCenter" text="小米游戏中心"></checkbox>
       <checkbox id="JianShu" text="简书转盘抽奖"></checkbox>
       <checkbox id="Meituan" text="美团红包签到"></checkbox>
       <checkbox id="Wifimanager" text="腾讯wifi管家"></checkbox>
     </radiogroup>
     <radiogroup>
       <checkbox id="CloudMusic" text="网易云音乐"></checkbox>
+      <checkbox id="YoudaoNote" text="有道云笔记"></checkbox>
       <checkbox id="Msg" text="口袋梦三国"></checkbox>
       <checkbox id="QQMusic" text="QQ音乐"></checkbox>
       <checkbox id="CSDN" text="CSDN"></checkbox>
@@ -55,6 +60,7 @@ ui.layout(
       <checkbox id="BaiduMap" text="百度地图"></checkbox>
       <checkbox id="QDReader" text="起点读书"></checkbox>
       <checkbox id="Dianping" text="大众点评"></checkbox>
+      <checkbox id="Everphoto" text="时光相册"></checkbox>
       <checkbox id="Karaoke" text="全民K歌"></checkbox>
     </radiogroup>
     <button id="confirm" text="确定" />
@@ -82,6 +88,16 @@ function AppObject(id, name, packageName, startUpDelay) {
   this.name = name
   this.packageName = packageName
   this.startUpDelay = startUpDelay || defaultStartUpDelay
+
+  /**
+   * 等待活动出现
+   * 
+   * @param {string} activityName 活动名称
+   */
+  this.waitForActivity = (activityName) =>{
+    waitForActivity(activityName )
+    sleep(1000)
+  }
 
   /**
    * 点击控件
@@ -421,6 +437,46 @@ function signInEfuzhou() {
   APP.click(getOneWidget('签到领福豆', 'text'))
 }
 
+/**
+ * 有道云笔记
+ */
+function signInYoudaoNote() {
+  APP.waitForActivity('com.youdao.note.activity2.MainActivity')
+  APP.click(getOneWidget('我的', 'text'))
+  APP.click(getOneWidget('签到得空间', 'text'))
+}
+
+/**
+ * 时光相册
+ */
+function signInEverphoto() {
+  APP.waitForActivity('everphoto.ui.feature.main.MainActivity')
+  APP.click(getOneWidget('avatar', 'id')) // 点击头像
+
+  APP.click(getOneWidget('action_daily_check_in', 'id')) // 点击签到
+
+  // 打印获取的内存大小
+  let widget = getOneWidget(/签到成功 您已获得[0-9]+MB/, 'textMatches')
+  if(widget){
+    console.info(widget.text())
+    return true
+  }
+  return false
+}
+
+/**
+ * 小米游戏中心
+ */
+function signInXiaomiGameCenter() {
+  APP.waitForActivity('com.xiaomi.gamecenter.ui.MainTabActivity')
+  APP.click(getOneWidget('我的', 'text'))
+  APP.click(getOneWidget('每日任务', 'text'))
+
+  APP.waitForActivity('com.xiaomi.gamecenter.ui.task.activity.DailyTaskActivity') // 签到页面
+  APP.click(getOneWidget('点击签到', 'text')) // 点击签到
+}
+
+
 function main() {
   let selectionLength = 0
   list.forEach((appObject) => {
@@ -428,15 +484,19 @@ function main() {
     if (isSelected === true) {
       selectionLength += 1
 
-      if (appObject.launch() === false) {
+      let hasApp = appObject.launch()
+
+      if (hasApp === false) {
         return toastLog(appObject.name + '未安装')
       } else {
         toastLog(appObject.name + '启动中...')
       }
       APP.click(getOneWidget(/.*跳.*过.*/, 'textMatches'))
       sleep(2000)
-      appObject.signIn()
-      toastLog('已完成' + appObject.name + '的签到')
+      let isSuccess = appObject.signIn()
+      if(isSuccess === true){
+        toastLog('已完成' + appObject.name + '的签到')
+      }
       sleep(6000)
       // appObject.killProgress()
     }
