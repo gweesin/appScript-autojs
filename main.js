@@ -1,90 +1,300 @@
 "ui";
 const OPERATION_DELAY = 6000
-let list = [
-  new AppObject('Cpdaily', '今日校园', 'com.wisedu.cpdaily'),
-  new AppObject('Fliggy', '飞猪', 'com.taobao.trip'),
-  new AppObject('JD', '京东', 'com.jingdong.app.mall'),
-  new AppObject('JianShu', '简书', 'com.jianshu.haruki'),
-  new AppObject('Msg', '口袋梦三国', 'com.dh.mengsanguoolex'),
-  new AppObject('Bilibili', '哔哩哔哩', 'tv.danmaku.bili'),
-  new AppObject('Alipay', '支付宝', 'com.eg.android.AlipayGphone', 1500),
-  new AppObject('Taobao', '淘宝', 'com.taobao.taobao'),
-  new AppObject('QQMusic', 'QQ音乐', 'com.tencent.qqmusic'),
-  new AppObject('Ele', '饿了么', 'me.ele'),
-  new AppObject('Pinduoduo', '拼多多', 'com.xunmeng.pinduoduo'),
-  new AppObject('Meituan', '美团', 'com.sankuai.meituan'),
-  new AppObject('BaiduMap', '百度地图', 'com.baidu.BaiduMap'),
-  new AppObject('Tieba', '百度贴吧', 'com.baidu.tieba'),
-  new AppObject('QDReader', '起点读书', 'com.qidian.QDReader'),
-  new AppObject('CloudMusic', '网易云音乐', 'com.netease.cloudmusic'),
-  new AppObject('Dianping', '大众点评', 'com.dianping.v1'),
-  new AppObject('Wifimanager', '腾讯wifi管家', 'com.tencent.wifimanager'),
-  new AppObject('Karaoke', '全民K歌', 'com.tencent.karaoke'),
-  new AppObject('Liwo', '梨涡', 'com.jd.campus'),
-  new AppObject('CSDN', 'CSDN', 'net.csdn.csdnplus'),
-  new AppObject('Etao', '一淘', 'com.taobao.etao'),
-  new AppObject('Efuzhou', 'e福州', 'com.digitalchina.mobile.dfhfz1'),
-  new AppObject('YoudaoNote', '有道云笔记', 'com.youdao.note'),
-  new AppObject('Everphoto', '时光相册', 'tc.everphoto'),
-  new AppObject('XiaomiGameCenter', '小米游戏中心', 'com.xiaomi.gamecenter'),
-  new AppObject('Yangshipin', '央视频', 'com.cctv.yangshipin.app.androidp'),
-  new AppObject('Weilai', '蔚来', 'cn.com.weilaihui3', 1000),
-  new AppObject('WPS', 'WPS', 'cn.wps.moffice_eng'),
+const marginLeftValue = 10
+let appData = [
+  {
+    id: 'Cpdaily',
+    name: '今日校园',
+    packageName: 'com.wisedu.cpdaily',
+    descriptionList: ['签到领福利'],
+    startUpDelay: null,
+  },
+  {
+    id: 'Fliggy',
+    name: '飞猪',
+    packageName: 'com.taobao.trip',
+    descriptionList: ['签到', '做任务赚里程(×)'],
+    startUpDelay: null,
+  },
+  {
+    id: 'JD',
+    name: '京东',
+    packageName: 'com.jingdong.app.mall',
+    descriptionList: [],
+    startUpDelay: null,
+  },
+  {
+    id: 'JianShu',
+    name: '简书',
+    packageName: 'com.jianshu.haruki',
+    descriptionList: [],
+    startUpDelay: null,
+  },
+  {
+    id: 'Msg',
+    name: '口袋梦三国',
+    packageName: 'com.dh.mengsanguoolex',
+    descriptionList: [],
+    startUpDelay: null,
+  },
+  {
+    id: 'Bilibili',
+    name: '哔哩哔哩',
+    packageName: 'tv.danmaku.bili',
+    descriptionList: [],
+    startUpDelay: null,
+  },
+  {
+    id: 'Alipay',
+    name: '支付宝',
+    packageName: 'com.eg.android.AlipayGphone',
+    descriptionList: [],
+    startUpDelay: null,
+  },
+  {
+    id: 'Taobao',
+    name: '淘宝',
+    packageName: 'com.taobao.taobao',
+    descriptionList: [],
+    startUpDelay: null,
+  },
+  {
+    id: 'QQMusic',
+    name: 'QQ音乐',
+    packageName: 'com.tencent.qqmusic',
+    descriptionList: [],
+    startUpDelay: null,
+  },
+  {
+    id: 'Ele',
+    name: '饿了么',
+    packageName: 'me.ele',
+    descriptionList: [],
+    startUpDelay: null,
+  },
+  {
+    id: 'Pinduoduo',
+    name: '拼多多',
+    packageName: 'com.xunmeng.pinduoduo',
+    descriptionList: [],
+    startUpDelay: null,
+  },
+  {
+    id: 'Meituan',
+    name: '美团',
+    packageName: 'com.sankuai.meituan',
+    descriptionList: [],
+    startUpDelay: null,
+  },
+  {
+    id: 'BaiduMap',
+    name: '百度地图',
+    packageName: 'com.baidu.BaiduMap',
+    descriptionList: [],
+    startUpDelay: null,
+  },
+  {
+    id: 'Tieba',
+    name: '百度贴吧',
+    packageName: 'com.baidu.tieba',
+    descriptionList: [],
+    startUpDelay: null,
+  },
+  {
+    id: 'QDReader',
+    name: '起点读书',
+    packageName: 'com.qidian.QDReader',
+    descriptionList: [],
+    startUpDelay: null,
+  },
+  {
+    id: 'CloudMusic',
+    name: '网易云音乐',
+    packageName: 'com.netease.cloudmusic',
+    descriptionList: [],
+    startUpDelay: null,
+  },
+  {
+    id: 'Dianping',
+    name: '大众点评',
+    packageName: 'com.dianping.v1',
+    descriptionList: [],
+    startUpDelay: null,
+  },
+  {
+    id: 'Wifimanager',
+    name: '腾讯wifi管家',
+    packageName: 'com.tencent.wifimanager',
+    descriptionList: [],
+    startUpDelay: null,
+  },
+  {
+    id: 'Karaoke',
+    name: '全民K歌',
+    packageName: 'com.tencent.karaoke',
+    descriptionList: [],
+    startUpDelay: null,
+  },
+  {
+    id: 'Liwo',
+    name: '梨涡',
+    packageName: 'com.jd.campus',
+    descriptionList: [],
+    startUpDelay: null,
+  },
+  {
+    id: 'CSDN',
+    name: 'CSDN',
+    packageName: 'net.csdn.csdnplus',
+    descriptionList: [],
+    startUpDelay: null,
+  },
+  {
+    id: 'Etao',
+    name: '一淘',
+    packageName: 'com.taobao.etao',
+    descriptionList: [],
+    startUpDelay: null,
+  },
+  {
+    id: 'Efuzhou',
+    name: 'e福州',
+    packageName: 'com.digitalchina.mobile.dfhfz1',
+    descriptionList: ['签到领福豆'],
+    startUpDelay: null,
+  },
+  {
+    id: 'YoudaoNote',
+    name: '有道云笔记',
+    packageName: 'com.youdao.note',
+    descriptionList: ['签到得内存空间'],
+    startUpDelay: null,
+  },
+  {
+    id: 'Everphoto',
+    name: '时光相册',
+    packageName: 'tc.everphoto',
+    descriptionList: ['签到得内存空间'],
+    startUpDelay: null,
+  },
+  {
+    id: 'XiaomiGameCenter',
+    name: '小米游戏中心',
+    packageName: 'com.xiaomi.gamecenter',
+    descriptionList: ['签到送现金'],
+    startUpDelay: null,
+  },
+  {
+    id: 'Yangshipin',
+    name: '央视频',
+    packageName: 'com.cctv.yangshipin.app.androidp',
+    descriptionList: ['签到', '积分抽奖'],
+    startUpDelay: null,
+  },
+  {
+    id: 'Weilai',
+    name: '蔚来',
+    packageName: 'cn.com.weilaihui3',
+    descriptionList: ['签到', '积分抽奖'],
+    startUpDelay: null,
+  },
+  {
+    id: 'WPS',
+    name: 'WPS Office',
+    packageName: 'cn.wps.moffice_eng',
+    descriptionList: ['签到', '稻壳签到(×)'],
+    startUpDelay: null,
+  },
+  {
+    id: 'Xiaoheihe',
+    name: '小黑盒',
+    packageName: 'com.max.xiaoheihe',
+    descriptionList: [
+      '签到',
+      '完成5次点赞',
+      '分享头条到社交平台',
+      '分享评论到社交平台',
+    ],
+    startUpDelay: null,
+  },
 ]
+
+let appList = []
+for (let index = 0; index < appData.length; index++) {
+  appList.push(
+    new AppObject(
+      appData[index].id,
+      appData[index].name,
+      appData[index].packageName,
+      appData[index].descriptionList,
+      appData[index].startUpDelay
+    )
+  )
+}
 
 ui.layout(
   <frame>
     <vertical>
-      <horizontal>
-        <text
-          text="请确保应用已登录过并已使用过"
-          textColor="#FFA500"
-          textSize="22sp"
-          gravity="center_horizontal"
+      <list id="scripts">
+        <card
           w="*"
-        ></text>
-      </horizontal>
-      <horizontal>
-        <radiogroup>
-          <checkbox id="Alipay" text="支付宝签到积分"></checkbox>
-          <checkbox id="Fliggy" text="飞猪签到里程"></checkbox>
-          <checkbox id="XiaomiGameCenter" text="小米游戏中心"></checkbox>
-          <checkbox id="JianShu" text="简书转盘抽奖"></checkbox>
-          <checkbox id="Meituan" text="美团红包签到"></checkbox>
-          <checkbox id="Wifimanager" text="腾讯wifi管家"></checkbox>
-          <checkbox id="Pinduoduo" text="拼多多"></checkbox>
-          <checkbox id="Ele" text="饿了么"></checkbox>
-          <checkbox id="Yangshipin" text="央视频"></checkbox>
-        </radiogroup>
-        <radiogroup>
-          <checkbox id="CloudMusic" text="网易云音乐"></checkbox>
-          <checkbox id="YoudaoNote" text="有道云笔记"></checkbox>
-          <checkbox id="Msg" text="口袋梦三国"></checkbox>
-          <checkbox id="QQMusic" text="QQ音乐"></checkbox>
-          <checkbox id="CSDN" text="CSDN"></checkbox>
-          <checkbox id="Efuzhou" text="e福州"></checkbox>
-          <checkbox id="Taobao" text="淘宝"></checkbox>
-          <checkbox id="JD" text="京东"></checkbox>
-          <checkbox id="Liwo" text="梨涡"></checkbox>
-          <checkbox id="Etao" text="一淘"></checkbox>
-          <checkbox id="Weilai" text="蔚来"></checkbox>
-          <checkbox id="WPS" text="WPS"></checkbox>
-        </radiogroup>
-        <radiogroup>
-          <checkbox id="Bilibili" text="哔哩哔哩"></checkbox>
-          <checkbox id="Cpdaily" text="今日校园"></checkbox>
-          <checkbox id="Tieba" text="百度贴吧"></checkbox>
-          <checkbox id="BaiduMap" text="百度地图"></checkbox>
-          <checkbox id="QDReader" text="起点读书"></checkbox>
-          <checkbox id="Dianping" text="大众点评"></checkbox>
-          <checkbox id="Everphoto" text="时光相册"></checkbox>
-          <checkbox id="Karaoke" text="全民K歌"></checkbox>
-        </radiogroup>
-      </horizontal>
-      <button id="confirm" text="确定" />
+          h="auto"
+          margin="10 5"
+          cardBackgroundColor="{{this.bg}}"
+          cardElevation="5dp"
+          cardCornerRadius="15dp"
+        >
+          <horizontal w="*" margin="6 6 6 6" bg="{{this.bg}}">
+            <frame layout_weight="1" layout_height="match_parent">
+              <vertical layout_weight="1" layout_height="match_parent">
+                <checkbox
+                  id="{{this.id}}"
+                  text="{{this.name}}  "
+                  textSize="18sp"
+                  textColor="black"
+                  layout_weight="1"
+                  gravity="left|center"
+                ></checkbox>
+                <text id="desc" text="{{this.desc}}" textSize="15sp"></text>
+              </vertical>
+            </frame>
+          </horizontal>
+        </card>
+      </list>
+    </vertical>
+    <vertical gravity="bottom|center" marginBottom="20">
+      {/* <button id="confirm" text="确定"/> */}
+      <fab id="confirm" text="确定"></fab>
     </vertical>
   </frame>
 )
+
+threads.start(function () {
+  var config = {
+    appId: '填写你自己的',
+    appKey: '填写你自己的',
+  }
+
+  // 间隔行变色
+  for (var i = 0; i < appList.length; i++) {
+    if (i % 2 == 0) {
+      appList[i].bg = '#87CEEB'
+    } else {
+      appList[i].bg = '#C0FF3E'
+    }
+  }
+
+  log('ui.scripts.setDataSource(appList) appList=')
+  log(appList)
+  // 设置list内容, 添加点击事件
+  ui.run(function () {
+    ui.scripts.setDataSource(appList)
+    ui.scripts.on('item_click', function (item, i, itemView, listView) {
+      var info = itemView.desc.text()
+      alert(info)
+    })
+  })
+})
 
 ui.confirm.click(() => {
   threads.start(function () {
@@ -98,15 +308,37 @@ ui.confirm.click(() => {
  * @param {string} id app英文名称
  * @param {string} name app名称
  * @param {string} packageName app的包名
+ * @param {string[]} descriptionList 任务描述列表
  * @param {number} startUpDelay 启动app的延迟时间，单位毫秒; 默认5000
  */
-function AppObject(id, name, packageName, startUpDelay) {
+function AppObject(id, name, packageName, descriptionList, startUpDelay) {
   const defaultStartUpDelay = 5000
 
   this.id = id
   this.name = name
   this.packageName = packageName
   this.startUpDelay = startUpDelay || defaultStartUpDelay
+  this.desc = dealDescriptionList(descriptionList)
+
+  /**
+   * 处理descriptionList的函数
+   * 处理效果：
+   * 原descriptionList = ['1', '2', '3']
+   * description = ' - 1\n - 2\n - 3\n'
+   *
+   * @param {string[]} descriptionList
+   */
+  function dealDescriptionList(descriptionList) {
+    let description = ''
+
+    // 存在descriptionList
+    if (descriptionList && descriptionList.length > 0) {
+      for (let index = 0; index < descriptionList.length; index++) {
+        description += ' - ' + descriptionList[index] + '\n'
+      }
+    }
+    return description
+  }
 
   /**
    * 等待活动出现
@@ -214,10 +446,13 @@ function signInMsg() {
  * 哔哩哔哩签到辣条
  */
 function signInBilibili() {
+  waitForActivity('tv.danmaku.bili.MainActivityV2') // 等待B站首页出现
   APP.click(getWidget('我知道了', 'text', false, 2000))
   APP.click(getWidget('我的', 'text'))
   APP.click(getWidget('更多', 'text'))
-  APP.click(getWidget('签到', 'text'))
+
+  waitForActivity('com.bililive.bililive.liveweb.ui.LiveHybridWebViewActivity')
+  return APP.click(getWidget('签到', 'text'))
 }
 
 /**
@@ -536,16 +771,20 @@ function signInWeilai() {
 function signInWPS() {
   APP.waitForActivity('cn.wps.moffice.main.local.HomeRootActivity')
 
-  APP.click(getWidget('我','text'))
+  APP.click(getWidget('我', 'text'))
 
-  APP.click(getWidget('签到','text'))
-  
-  return APP.click(getWidget('签到','text'))
+  APP.click(getWidget('签到', 'text'))
+
+  return APP.click(getWidget('签到', 'text'))
 }
 
 function main() {
   let selectionLength = 0
-  list.forEach((appObject) => {
+  appList.forEach((appObject) => {
+    if (ui[appObject.id] == null) {
+      return false
+    }
+
     let isSelected = ui[appObject.id].checked
     if (isSelected === true) {
       selectionLength += 1
