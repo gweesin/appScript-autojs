@@ -10,10 +10,10 @@ let list = [
   new AppObject('Alipay', '支付宝', 'com.eg.android.AlipayGphone', 1500),
   new AppObject('Taobao', '淘宝', 'com.taobao.taobao'),
   new AppObject('QQMusic', 'QQ音乐', 'com.tencent.qqmusic'),
-  new AppObject('BaiduMap', '百度地图', 'com.baidu.BaiduMap'),
   new AppObject('Ele', '饿了么', 'me.ele'),
   new AppObject('Pinduoduo', '拼多多', 'com.xunmeng.pinduoduo'),
   new AppObject('Meituan', '美团', 'com.sankuai.meituan'),
+  new AppObject('BaiduMap', '百度地图', 'com.baidu.BaiduMap'),
   new AppObject('Tieba', '百度贴吧', 'com.baidu.tieba'),
   new AppObject('QDReader', '起点读书', 'com.qidian.QDReader'),
   new AppObject('CloudMusic', '网易云音乐', 'com.netease.cloudmusic'),
@@ -29,6 +29,7 @@ let list = [
   new AppObject('XiaomiGameCenter', '小米游戏中心', 'com.xiaomi.gamecenter'),
   new AppObject('Yangshipin', '央视频', 'com.cctv.yangshipin.app.androidp'),
   new AppObject('Weilai', '蔚来', 'cn.com.weilaihui3', 1000),
+  new AppObject('WPS', 'WPS', 'cn.wps.moffice_eng'),
 ]
 
 ui.layout(
@@ -67,6 +68,7 @@ ui.layout(
           <checkbox id="Liwo" text="梨涡"></checkbox>
           <checkbox id="Etao" text="一淘"></checkbox>
           <checkbox id="Weilai" text="蔚来"></checkbox>
+          <checkbox id="WPS" text="WPS"></checkbox>
         </radiogroup>
         <radiogroup>
           <checkbox id="Bilibili" text="哔哩哔哩"></checkbox>
@@ -170,18 +172,18 @@ const APP = new AppObject()
  * 飞猪签到里程
  */
 function signInFliggy() {
-  APP.click(getOneWidget('里程', 'text'))
-  APP.click(getOneWidget('立即签到', 'text'))
+  APP.click(getWidget('里程', 'text'))
+  APP.click(getWidget('立即签到', 'text'))
 }
 
 function signInJD() {
-  APP.click(getOneWidget('领京豆', 'text'))
-  APP.click(getOneWidget('签到领京豆', 'text'))
+  APP.click(getWidget('领京豆', 'text'))
+  APP.click(getWidget('签到领京豆', 'text'))
 
-  APP.click(getOneWidget('种豆瓜分京豆', 'text'))
+  APP.click(getWidget('种豆瓜分京豆', 'text'))
 
   // 种京豆，领京豆
-  while (APP.click(getOneWidget(/x[0-9]+/, 'textMatches'))) {
+  while (APP.click(getWidget(/x[0-9]+/, 'textMatches'))) {
     sleep(1500)
   }
 }
@@ -190,11 +192,11 @@ function signInJD() {
  * 简书转盘抽奖
  */
 function signInJianShu() {
-  APP.click(getOneWidget('tab_mine', 'id'))
+  APP.click(getWidget('tab_mine', 'id'))
   sleep(2000)
-  APP.click(getOneWidget('天天抽奖', 'text'))
+  APP.click(getWidget('天天抽奖', 'text'))
   sleep(5000)
-  APP.click(getOneWidget('android.view.View', 'className'))
+  APP.click(getWidget('android.view.View', 'className'))
   sleep(10 * 1000)
   click(560, 1560)
 }
@@ -204,32 +206,32 @@ function signInJianShu() {
  */
 function signInMsg() {
   sleep(5000)
-  App.click(getOneWidget('home_ll_btn1', 'id'))
-  App.click(getOneWidget('确定', 'text'))
+  App.click(getWidget('home_ll_btn1', 'id'))
+  App.click(getWidget('确定', 'text'))
 }
 
 /**
  * 哔哩哔哩签到辣条
  */
 function signInBilibili() {
-  APP.click(getOneWidget('我知道了', 'text', false, 2000))
-  APP.click(getOneWidget('我的', 'text'))
-  APP.click(getOneWidget('更多', 'text'))
-  APP.click(getOneWidget('签到', 'text'))
+  APP.click(getWidget('我知道了', 'text', false, 2000))
+  APP.click(getWidget('我的', 'text'))
+  APP.click(getWidget('更多', 'text'))
+  APP.click(getWidget('签到', 'text'))
 }
 
 /**
  * 支付宝签到积分
  */
 function signInAlipay() {
-  APP.click(getOneWidget('我的', 'text'))
+  APP.click(getWidget('我的', 'text'))
   sleep(2000)
-  APP.click(getOneWidget('支付宝会员', 'text'))
+  APP.click(getWidget('支付宝会员', 'text'))
   sleep(1500)
-  APP.click(getOneWidget('领积分', 'text'))
+  APP.click(getWidget('领积分', 'text'))
   sleep(1000)
   for (let i = 0; i < 5; i++) {
-    APP.click(getOneWidget('点击领取', 'text'))
+    APP.click(getWidget('点击领取', 'text'))
     sleep(1500)
   }
 }
@@ -238,27 +240,27 @@ function signInAlipay() {
  * 淘宝淘金币签到
  */
 function signInTaobao() {
-  APP.click(getOneWidget('领淘金币', 'desc'))
-  APP.click(getOneWidget('立即签到', 'text'))
+  APP.click(getWidget('领淘金币', 'desc'))
+  APP.click(getWidget('立即签到', 'text'))
 }
 
 /**
  * QQ音乐
  */
 function signInQQMusic() {
-  APP.click(getOneWidget('我的', 'text'))
-  APP.click(getOneWidget('活动中心', 'text'))
-  APP.click(getOneWidget('立即领取', 'text'))
-  APP.click(getOneWidget('立 即 领 取', 'text'))
+  APP.click(getWidget('我的', 'text'))
+  APP.click(getWidget('活动中心', 'text'))
+  APP.click(getWidget('立即领取', 'text'))
+  APP.click(getWidget('立 即 领 取', 'text'))
 }
 
 /**
  * 百度地图
  */
 function signInBaiduMap() {
-  APP.click(getOneWidget('个人中心', 'desc'))
-  APP.click(getOneWidget('签  到', 'text'))
-  APP.click(getOneWidget(/[0-9]+人已签到/, 'textMatches'))
+  APP.click(getWidget('个人中心', 'desc'))
+  APP.click(getWidget('签  到', 'text'))
+  APP.click(getWidget(/[0-9]+人已签到/, 'textMatches'))
 
   sleep(1000)
   if (text('立即领取').exists()) {
@@ -275,33 +277,33 @@ function signInBaiduMap() {
  * 饿了么
  */
 function signInEle() {
-  APP.click(getOneWidget('签到赢饭钱', 'desc'))
+  APP.click(getWidget('签到赢饭钱', 'desc'))
 
-  APP.click(getOneWidget('立即签到', 'text'))
+  APP.click(getWidget('立即签到', 'text'))
 
-  APP.click(getOneWidget('品质联盟', 'textMatches'))
+  APP.click(getWidget('品质联盟', 'textMatches'))
 
-  APP.click(getOneWidget('分享可再翻一次卡牌', 'text'))
-  APP.click(getOneWidget('微信', 'text'))
-  APP.click(getOneWidget('返回', 'desc'))
-  APP.click(getOneWidget('品质联盟', 'textMatches'))
+  APP.click(getWidget('分享可再翻一次卡牌', 'text'))
+  APP.click(getWidget('微信', 'text'))
+  APP.click(getWidget('返回', 'desc'))
+  APP.click(getWidget('品质联盟', 'textMatches'))
 }
 
 /**
  * 今日校园
  */
 function signInCpdaily() {
-  APP.click(getOneWidget('签到领福利', 'text'))
+  APP.click(getWidget('签到领福利', 'text'))
 
-  APP.click(getOneWidget('点此打卡', 'text'))
+  APP.click(getWidget('点此打卡', 'text'))
 }
 
 /**
  * 美团红包签到
  */
 function signInMeituan() {
-  APP.click(getOneWidget('红包签到', 'desc'))
-  APP.click(getOneWidget('cf1ef851fe4302b10efeb90541e1d6f45595', 'text'))
+  APP.click(getWidget('红包签到', 'desc'))
+  APP.click(getWidget('cf1ef851fe4302b10efeb90541e1d6f45595', 'text'))
 }
 
 /**
@@ -309,31 +311,31 @@ function signInMeituan() {
  */
 function Pinduoduo() {
   if (id('h_').exists()) {
-    APP.click(getOneWidget('h_', 'id')) // 有时有广告弹窗，需要关闭
+    APP.click(getWidget('h_', 'id')) // 有时有广告弹窗，需要关闭
   }
   if (id('i_').exists()) {
-    APP.click(getOneWidget('i_', 'id')) // 有时有广告弹窗，需要关闭
+    APP.click(getWidget('i_', 'id')) // 有时有广告弹窗，需要关闭
   }
   if (id('ii').exists()) {
-    APP.click(getOneWidget('ii', 'id')) // 有时有广告弹窗，需要关闭
+    APP.click(getWidget('ii', 'id')) // 有时有广告弹窗，需要关闭
   }
   if (id('is').exists()) {
-    APP.click(getOneWidget('is', 'id')) // 有时有广告弹窗，需要关闭
+    APP.click(getWidget('is', 'id')) // 有时有广告弹窗，需要关闭
   }
 
-  APP.click(getOneWidget('现金签到', 'text'))
-  APP.click(getOneWidget(/签到领.*元/, 'textMatches'))
-  // APP.click(getOneWidget('继续领取其他福利', 'text'))
+  APP.click(getWidget('现金签到', 'text'))
+  APP.click(getWidget(/签到领.*元/, 'textMatches'))
+  // APP.click(getWidget('继续领取其他福利', 'text'))
 }
 
 /**
  * 百度贴吧签到
  */
 function signInTieba() {
-  APP.click(getOneWidget('进吧', 'text'))
-  APP.click(getOneWidget('签到', 'desc'))
+  APP.click(getWidget('进吧', 'text'))
+  APP.click(getWidget('签到', 'desc'))
 
-  // APP.click(getOneWidget('开始签到', 'text'))
+  // APP.click(getWidget('开始签到', 'text'))
   toastLog('目前暂不支持1-6级贴吧自动签到')
   sleep(2000)
   click(550, 350)
@@ -343,25 +345,25 @@ function signInTieba() {
  * 起点读书
  */
 function signInQDReader() {
-  APP.click(getOneWidget('fClose', 'id', false, 2000))
-  APP.click(getOneWidget(/领[0-9]+点/, 'textMatches'))
-  APP.click(getOneWidget('今日奖励翻倍', 'text'))
+  APP.click(getWidget('fClose', 'id', false, 2000))
+  APP.click(getWidget(/领[0-9]+点/, 'textMatches'))
+  APP.click(getWidget('今日奖励翻倍', 'text'))
 
   // 看广告
   sleep(20 * 1000)
-  APP.click(getOneWidget('android.widget.ImageView', 'className')) // 关闭广告
+  APP.click(getWidget('android.widget.ImageView', 'className')) // 关闭广告
   sleep(1000)
-  APP.click(getOneWidget('抽奖', 'text'))
+  APP.click(getWidget('抽奖', 'text'))
 
   let flag = false
   while (true) {
-    if (APP.click(getOneWidget('抽 奖', 'text'))) {
+    if (APP.click(getWidget('抽 奖', 'text'))) {
       flag = true
       continue
     }
-    if (APP.click(getOneWidget('看视频抽奖喜+1', 'text'))) {
+    if (APP.click(getWidget('看视频抽奖喜+1', 'text'))) {
       sleep(20 * 1000)
-      APP.click(getOneWidget('android.widget.ImageView', 'className')) // 关闭广告
+      APP.click(getWidget('android.widget.ImageView', 'className')) // 关闭广告
       flag = true
       continue
     }
@@ -376,51 +378,51 @@ function signInQDReader() {
  * 网易云音乐签到
  */
 function signInCloudMusic() {
-  APP.click(getOneWidget('抽屉菜单', 'desc'))
-  APP.click(getOneWidget('签到', 'text'))
+  APP.click(getWidget('抽屉菜单', 'desc'))
+  APP.click(getWidget('签到', 'text'))
 }
 
 /**
  * 大众点评签到
  */
 function signInDianping() {
-  APP.click(getOneWidget('关闭', 'desc', false, 2000))
-  APP.click(getOneWidget('我的', 'text'))
-  APP.click(getOneWidget('每日福利', 'text'))
-  APP.click(getOneWidget('签到领奖', 'text'))
+  APP.click(getWidget('关闭', 'desc', false, 2000))
+  APP.click(getWidget('我的', 'text'))
+  APP.click(getWidget('每日福利', 'text'))
+  APP.click(getWidget('签到领奖', 'text'))
 }
 
 /**
  * 腾讯wifi管家签到
  */
 function signInWifimanager() {
-  APP.click(getOneWidget('sm', 'id', 2000))
-  APP.click(getOneWidget('我的', 'text'))
-  APP.click(getOneWidget('签到', 'text'))
-  APP.click(getOneWidget('b58', 'id', 2000))
+  APP.click(getWidget('sm', 'id', 2000))
+  APP.click(getWidget('我的', 'text'))
+  APP.click(getWidget('签到', 'text'))
+  APP.click(getWidget('b58', 'id', 2000))
 }
 
 /**
  * 全民K歌签到
  */
 function signInKaraoke() {
-  APP.click(getOneWidget('h7b', 'id'))
-  APP.click(getOneWidget('立刻签到', 'desc'))
-  APP.click(getOneWidget('立即领取', 'desc'))
+  APP.click(getWidget('h7b', 'id'))
+  APP.click(getWidget('立刻签到', 'desc'))
+  APP.click(getWidget('立即领取', 'desc'))
 }
 
 /**
  * 梨涡
  */
 function signInLiwo() {
-  APP.click(getOneWidget('ivCloseAd', 'id', false, 2000))
-  APP.click(getOneWidget('ivEventBg', 'id'))
-  APP.click(getOneWidget('点击领取', 'text'))
-  APP.click(getOneWidget('欣然收下', 'text'))
+  APP.click(getWidget('ivCloseAd', 'id', false, 2000))
+  APP.click(getWidget('ivEventBg', 'id'))
+  APP.click(getWidget('点击领取', 'text'))
+  APP.click(getWidget('欣然收下', 'text'))
 
-  // APP.click(getOneWidget('我的', 'text'))
-  // APP.click(getOneWidget('签到领钱', 'text'))
-  // APP.click(getOneWidget('点击领取', 'text'))
+  // APP.click(getWidget('我的', 'text'))
+  // APP.click(getWidget('签到领钱', 'text'))
+  // APP.click(getWidget('点击领取', 'text'))
 }
 
 /**
@@ -429,29 +431,29 @@ function signInLiwo() {
 function signInCSDN() {
   sleep(6000)
   click(971, 2097) // 点击"我的"
-  APP.click(getOneWidget('签到', 'text'))
+  APP.click(getWidget('签到', 'text'))
   sleep(3000)
   click(540, 1213) // 点击"签到"
 
-  APP.click(getOneWidget('iv_back', 'id')) // 返回
+  APP.click(getWidget('iv_back', 'id')) // 返回
 }
 
 /**
  * 一淘
  */
 function signInEtao() {
-  APP.click(getOneWidget('home_market_close', 'id')) // 首页有可能弹出来的广告
+  APP.click(getWidget('home_market_close', 'id')) // 首页有可能弹出来的广告
 
-  APP.click(getOneWidget('天天领钱', 'text'))
-  APP.click(getOneWidget('点我签到领钱', 'text'))
+  APP.click(getWidget('天天领钱', 'text'))
+  APP.click(getWidget('点我签到领钱', 'text'))
 }
 
 /**
  * e福州
  */
 function signInEfuzhou() {
-  APP.click(getOneWidget('我的', 'text'))
-  APP.click(getOneWidget('签到领福豆', 'text'))
+  APP.click(getWidget('我的', 'text'))
+  APP.click(getWidget('签到领福豆', 'text'))
 }
 
 /**
@@ -459,8 +461,8 @@ function signInEfuzhou() {
  */
 function signInYoudaoNote() {
   APP.waitForActivity('com.youdao.note.activity2.MainActivity')
-  APP.click(getOneWidget('我的', 'text'))
-  APP.click(getOneWidget('签到得空间', 'text'))
+  APP.click(getWidget('我的', 'text'))
+  APP.click(getWidget('签到得空间', 'text'))
 }
 
 /**
@@ -468,12 +470,12 @@ function signInYoudaoNote() {
  */
 function signInEverphoto() {
   APP.waitForActivity('everphoto.ui.feature.main.MainActivity')
-  APP.click(getOneWidget('avatar', 'id')) // 点击头像
+  APP.click(getWidget('avatar', 'id')) // 点击头像
 
-  APP.click(getOneWidget('action_daily_check_in', 'id')) // 点击签到
+  APP.click(getWidget('action_daily_check_in', 'id')) // 点击签到
 
   // 打印获取的内存大小
-  let widget = getOneWidget(/签到成功 您已获得[0-9]+MB/, 'textMatches')
+  let widget = getWidget(/签到成功 您已获得[0-9]+MB/, 'textMatches')
   if (widget) {
     toastLog(widget.text())
     return true
@@ -486,13 +488,13 @@ function signInEverphoto() {
  */
 function signInXiaomiGameCenter() {
   APP.waitForActivity('com.xiaomi.gamecenter.ui.MainTabActivity')
-  APP.click(getOneWidget('我的', 'text'))
-  APP.click(getOneWidget('每日任务', 'text'))
+  APP.click(getWidget('我的', 'text'))
+  APP.click(getWidget('每日任务', 'text'))
 
   APP.waitForActivity(
     'com.xiaomi.gamecenter.ui.task.activity.DailyTaskActivity'
   ) // 签到页面
-  APP.click(getOneWidget('点击签到', 'text')) // 点击签到
+  APP.click(getWidget('点击签到', 'text')) // 点击签到
 }
 
 /**
@@ -500,13 +502,13 @@ function signInXiaomiGameCenter() {
  */
 function signInYangshipin() {
   APP.waitForActivity('com.tencent.videolite.android.ui.HomeActivity')
-  APP.click(getOneWidget('我的', 'text'))
-  APP.click(getOneWidget('签到', 'text'))
+  APP.click(getWidget('我的', 'text'))
+  APP.click(getWidget('签到', 'text'))
 
-  let widget = getOneWidget('开始抽奖', 'text')
-  if(widget){
+  let widget = getWidget('开始抽奖', 'text')
+  if (widget) {
     APP.click(widget)
-    APP.click(getOneWidget('确定', 'text'))
+    APP.click(getWidget('确定', 'text'))
     return true
   }
   return false
@@ -517,18 +519,29 @@ function signInYangshipin() {
  */
 function signInWeilai() {
   APP.waitForActivity('cn.com.weilaihui3.app.ui.activity.HomeActivity')
-  APP.click(getOneWidget('我的', 'text'))
-  APP.click(getOneWidget('立即签到', 'text'))
+  APP.click(getWidget('我的', 'text'))
+  APP.click(getWidget('立即签到', 'text'))
 
-  let widget = getOneWidget(/已签到.*天/, 'textMatches')
-  if(widget){
+  let widget = getWidget(/已签到.*天/, 'textMatches')
+  if (widget) {
     toastLog('蔚来' + widget.text())
     return true
   }
   return false
 }
 
+/**
+ * WPS
+ */
+function signInWPS() {
+  APP.waitForActivity('cn.wps.moffice.main.local.HomeRootActivity')
 
+  APP.click(getWidget('我','text'))
+
+  APP.click(getWidget('签到','text'))
+  
+  return APP.click(getWidget('签到','text'))
+}
 
 function main() {
   let selectionLength = 0
@@ -544,14 +557,14 @@ function main() {
       } else {
         toastLog(appObject.name + '启动中...')
       }
-      APP.click(getOneWidget(/.*跳.*过.*/, 'textMatches'))
+      APP.click(getWidget(/.*跳.*过.*/, 'textMatches'))
       sleep(2000)
       let isSuccess = appObject.signIn()
       if (isSuccess === true) {
         toastLog('已完成' + appObject.name + '的签到')
       }
-      sleep(6000)
-      // appObject.killProgress()
+      sleep(2000)
+      appObject.killProgress()
     }
   })
 
@@ -569,8 +582,9 @@ main()
  * @param {string} method 指定方法，默认text
  * @param {boolean} parent 是否要寻找父控件，默认false
  * @param {number} delay 指定延迟时间，默认OPERATION_DELAY
+ * @param {string} widgetNumber 默认为One, 填''(空字符串)表示findAll
  */
-function getOneWidget(str, method, parent, delay) {
+function getWidget(str, method, parent, delay, widgetNumber) {
   if (!str) {
     return null
   }
@@ -578,9 +592,11 @@ function getOneWidget(str, method, parent, delay) {
   let method = method || 'text'
   let parent = parent || false
   let delay = delay || OPERATION_DELAY
+  let widgetNumber = widgetNumber || 'One'
   let widget = null
 
-  let funcStr = method + "('" + str + "').findOne(" + delay + ')'
+  let funcStr =
+    method + "('" + str + "').find" + widgetNumber + '(' + delay + ')'
   if (parent === false) {
     return (widget = eval(funcStr))
   }
