@@ -76,4 +76,19 @@ APP = new AppObject()
 // APP.click(getOneWidget('点我签到领钱', 'text'))
 // APP.click(getOneWidget('ivCloseAd', 'id', false, 2000))
 // APP.click(getOneWidget('我的', 'text'))
-getOneWidget('ListView', 'className').scrollForward()
+// getOneWidget('ListView', 'className').scrollForward()
+// let activity = currentActivity()
+
+// toastLog(activity)
+
+// let i = waitForActivity("com.tencent.mobileqq.activity.SplashActivity")
+// toastLog(i)
+
+var result = shell("am force-stop com.tencent.mm", false);
+toastLog(result);
+console.show();
+if(result.code == 0){
+  toast("执行成功");
+}else{
+  toast("执行失败！请到控制台查看错误信息");
+}

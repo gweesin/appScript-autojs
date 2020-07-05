@@ -179,6 +179,7 @@ function signInMsg() {
  * 哔哩哔哩签到辣条
  */
 function signInBilibili() {
+  APP.click(getOneWidget('我知道了', 'text', false, 2000))
   APP.click(getOneWidget('我的', 'text'))
   APP.click(getOneWidget('更多', 'text'))
   APP.click(getOneWidget('签到', 'text'))
@@ -436,7 +437,7 @@ function main() {
       sleep(2000)
       appObject.signIn()
       toastLog('已完成' + appObject.name + '的签到')
-      sleep(2000)
+      sleep(6000)
       // appObject.killProgress()
     }
   })
