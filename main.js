@@ -27,44 +27,61 @@ let list = [
   new AppObject('YoudaoNote', '有道云笔记', 'com.youdao.note'),
   new AppObject('Everphoto', '时光相册', 'tc.everphoto'),
   new AppObject('XiaomiGameCenter', '小米游戏中心', 'com.xiaomi.gamecenter'),
+  new AppObject('Yangshipin', '央视频', 'com.cctv.yangshipin.app.androidp'),
+  new AppObject('Weilai', '蔚来', 'cn.com.weilaihui3', 1000),
 ]
 
 ui.layout(
-  <horizontal>
-    <radiogroup>
-      <checkbox id="Alipay" text="支付宝签到积分"></checkbox>
-      <checkbox id="Fliggy" text="飞猪签到里程"></checkbox>
-      <checkbox id="XiaomiGameCenter" text="小米游戏中心"></checkbox>
-      <checkbox id="JianShu" text="简书转盘抽奖"></checkbox>
-      <checkbox id="Meituan" text="美团红包签到"></checkbox>
-      <checkbox id="Wifimanager" text="腾讯wifi管家"></checkbox>
-    </radiogroup>
-    <radiogroup>
-      <checkbox id="CloudMusic" text="网易云音乐"></checkbox>
-      <checkbox id="YoudaoNote" text="有道云笔记"></checkbox>
-      <checkbox id="Msg" text="口袋梦三国"></checkbox>
-      <checkbox id="QQMusic" text="QQ音乐"></checkbox>
-      <checkbox id="CSDN" text="CSDN"></checkbox>
-      <checkbox id="Pinduoduo" text="拼多多"></checkbox>
-      <checkbox id="Ele" text="饿了么"></checkbox>
-      <checkbox id="Efuzhou" text="e福州"></checkbox>
-      <checkbox id="Taobao" text="淘宝"></checkbox>
-      <checkbox id="JD" text="京东"></checkbox>
-      <checkbox id="Liwo" text="梨涡"></checkbox>
-      <checkbox id="Etao" text="一淘"></checkbox>
-    </radiogroup>
-    <radiogroup>
-      <checkbox id="Bilibili" text="哔哩哔哩"></checkbox>
-      <checkbox id="Cpdaily" text="今日校园"></checkbox>
-      <checkbox id="Tieba" text="百度贴吧"></checkbox>
-      <checkbox id="BaiduMap" text="百度地图"></checkbox>
-      <checkbox id="QDReader" text="起点读书"></checkbox>
-      <checkbox id="Dianping" text="大众点评"></checkbox>
-      <checkbox id="Everphoto" text="时光相册"></checkbox>
-      <checkbox id="Karaoke" text="全民K歌"></checkbox>
-    </radiogroup>
-    <button id="confirm" text="确定" />
-  </horizontal>
+  <frame>
+    <vertical>
+      <horizontal>
+        <text
+          text="请确保应用已登录过并已使用过"
+          textColor="#FFA500"
+          textSize="22sp"
+          gravity="center_horizontal"
+          w="*"
+        ></text>
+      </horizontal>
+      <horizontal>
+        <radiogroup>
+          <checkbox id="Alipay" text="支付宝签到积分"></checkbox>
+          <checkbox id="Fliggy" text="飞猪签到里程"></checkbox>
+          <checkbox id="XiaomiGameCenter" text="小米游戏中心"></checkbox>
+          <checkbox id="JianShu" text="简书转盘抽奖"></checkbox>
+          <checkbox id="Meituan" text="美团红包签到"></checkbox>
+          <checkbox id="Wifimanager" text="腾讯wifi管家"></checkbox>
+          <checkbox id="Pinduoduo" text="拼多多"></checkbox>
+          <checkbox id="Ele" text="饿了么"></checkbox>
+          <checkbox id="Yangshipin" text="央视频"></checkbox>
+        </radiogroup>
+        <radiogroup>
+          <checkbox id="CloudMusic" text="网易云音乐"></checkbox>
+          <checkbox id="YoudaoNote" text="有道云笔记"></checkbox>
+          <checkbox id="Msg" text="口袋梦三国"></checkbox>
+          <checkbox id="QQMusic" text="QQ音乐"></checkbox>
+          <checkbox id="CSDN" text="CSDN"></checkbox>
+          <checkbox id="Efuzhou" text="e福州"></checkbox>
+          <checkbox id="Taobao" text="淘宝"></checkbox>
+          <checkbox id="JD" text="京东"></checkbox>
+          <checkbox id="Liwo" text="梨涡"></checkbox>
+          <checkbox id="Etao" text="一淘"></checkbox>
+          <checkbox id="Weilai" text="蔚来"></checkbox>
+        </radiogroup>
+        <radiogroup>
+          <checkbox id="Bilibili" text="哔哩哔哩"></checkbox>
+          <checkbox id="Cpdaily" text="今日校园"></checkbox>
+          <checkbox id="Tieba" text="百度贴吧"></checkbox>
+          <checkbox id="BaiduMap" text="百度地图"></checkbox>
+          <checkbox id="QDReader" text="起点读书"></checkbox>
+          <checkbox id="Dianping" text="大众点评"></checkbox>
+          <checkbox id="Everphoto" text="时光相册"></checkbox>
+          <checkbox id="Karaoke" text="全民K歌"></checkbox>
+        </radiogroup>
+      </horizontal>
+      <button id="confirm" text="确定" />
+    </vertical>
+  </frame>
 )
 
 ui.confirm.click(() => {
@@ -91,11 +108,11 @@ function AppObject(id, name, packageName, startUpDelay) {
 
   /**
    * 等待活动出现
-   * 
+   *
    * @param {string} activityName 活动名称
    */
-  this.waitForActivity = (activityName) =>{
-    waitForActivity(activityName )
+  this.waitForActivity = (activityName) => {
+    waitForActivity(activityName)
     sleep(1000)
   }
 
@@ -457,8 +474,8 @@ function signInEverphoto() {
 
   // 打印获取的内存大小
   let widget = getOneWidget(/签到成功 您已获得[0-9]+MB/, 'textMatches')
-  if(widget){
-    console.info(widget.text())
+  if (widget) {
+    toastLog(widget.text())
     return true
   }
   return false
@@ -472,9 +489,45 @@ function signInXiaomiGameCenter() {
   APP.click(getOneWidget('我的', 'text'))
   APP.click(getOneWidget('每日任务', 'text'))
 
-  APP.waitForActivity('com.xiaomi.gamecenter.ui.task.activity.DailyTaskActivity') // 签到页面
+  APP.waitForActivity(
+    'com.xiaomi.gamecenter.ui.task.activity.DailyTaskActivity'
+  ) // 签到页面
   APP.click(getOneWidget('点击签到', 'text')) // 点击签到
 }
+
+/**
+ * 央视频
+ */
+function signInYangshipin() {
+  APP.waitForActivity('com.tencent.videolite.android.ui.HomeActivity')
+  APP.click(getOneWidget('我的', 'text'))
+  APP.click(getOneWidget('签到', 'text'))
+
+  let widget = getOneWidget('开始抽奖', 'text')
+  if(widget){
+    APP.click(widget)
+    APP.click(getOneWidget('确定', 'text'))
+    return true
+  }
+  return false
+}
+
+/**
+ * 蔚来
+ */
+function signInWeilai() {
+  APP.waitForActivity('cn.com.weilaihui3.app.ui.activity.HomeActivity')
+  APP.click(getOneWidget('我的', 'text'))
+  APP.click(getOneWidget('立即签到', 'text'))
+
+  let widget = getOneWidget(/已签到.*天/, 'textMatches')
+  if(widget){
+    toastLog('蔚来' + widget.text())
+    return true
+  }
+  return false
+}
+
 
 
 function main() {
@@ -494,7 +547,7 @@ function main() {
       APP.click(getOneWidget(/.*跳.*过.*/, 'textMatches'))
       sleep(2000)
       let isSuccess = appObject.signIn()
-      if(isSuccess === true){
+      if (isSuccess === true) {
         toastLog('已完成' + appObject.name + '的签到')
       }
       sleep(6000)
