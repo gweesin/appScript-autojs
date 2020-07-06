@@ -245,6 +245,19 @@ let appData = [
     descriptionList: ['签到领金币'],
     startUpDelay: 3000,
   },
+  {
+    id: 'Youku',
+    name: '优酷视频',
+    packageName: 'com.youku.phone',
+    descriptionList: [
+      '签到领U豆',
+      '发一条弹幕(×)',
+      '分享一条视频(×)',
+      '发一条评论(×)',
+      '分享U豆互动游戏(×)',
+    ],
+    startUpDelay: 3000,
+  },
 ]
 
 let appList = []
@@ -390,7 +403,10 @@ function AppObject(id, name, packageName, descriptionList, startUpDelay) {
       return false
     }
 
-    let delay = delay || 2000
+    let clickDelay = 2000
+    if (delay) {
+      clickDelay = delay
+    }
 
     // 控件可点击
     if (widget.clickable() === true) {
@@ -1047,6 +1063,22 @@ function signInUCMobile() {
   return APP.click(getWidget('签到', 'text'), 3000)
 }
 
+/**
+ * 优酷视频
+ */
+function signInYouku() {
+  waitForActivity('com.youku.v2.HomePageEntry')
+
+  APP.click(getWidget('知道了', 'text', false, 1000)) // 关闭青少年模式弹窗
+  APP.click(getWidget('closeView', 'id', false, 1000)) // 关闭广告
+
+  APP.click(getWidget('我的', 'text'))
+  waitForActivity('com.youku.usercenter.activity.UserCenterActivity')
+  APP.click(getWidget('签到领U豆', 'text'))
+
+  return APP.click(getWidget('签到', 'desc'))
+}
+
 function main() {
   let selectionLength = 0
   appList.forEach((appObject) => {
@@ -1066,7 +1098,8 @@ function main() {
         toastLog(appObject.name + '启动中...')
       }
       APP.click(
-        getWidget(/.*跳.*过.*/, 'textMatches', false, appObject.startUpDelay)
+        getWidget(/.*跳.*过.*/, 'textMatches', false, appObject.startUpDelay),
+        100
       )
       sleep(2000)
       let isSuccess = appObject.signIn()
