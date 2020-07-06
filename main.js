@@ -94,6 +94,20 @@ let appData = [
     startUpDelay: null,
   },
   {
+    id: 'Wenku',
+    name: '百度文库',
+    packageName: 'com.baidu.wenku',
+    descriptionList: ['签到有奖'],
+    startUpDelay: 3000,
+  },
+  {
+    id: 'BaiduNetdisk',
+    name: '百度网盘',
+    packageName: 'com.baidu.netdisk',
+    descriptionList: ['签到领积分'],
+    startUpDelay: 3000,
+  },
+  {
     id: 'Tieba',
     name: '百度贴吧',
     packageName: 'com.baidu.tieba',
@@ -185,6 +199,13 @@ let appData = [
     startUpDelay: null,
   },
   {
+    id: 'XiaomiVideo',
+    name: '小米视频',
+    packageName: 'com.miui.video',
+    descriptionList: ['签到', '观看40个30秒视频(×)'],
+    startUpDelay: null,
+  },
+  {
     id: 'Yangshipin',
     name: '央视频',
     packageName: 'com.cctv.yangshipin.app.androidp',
@@ -216,6 +237,13 @@ let appData = [
       '分享评论到社交平台',
     ],
     startUpDelay: null,
+  },
+  {
+    id: 'UCMobile',
+    name: 'UC浏览器',
+    packageName: 'com.UCMoblie',
+    descriptionList: ['签到领金币'],
+    startUpDelay: 3000,
   },
 ]
 
@@ -354,23 +382,53 @@ function AppObject(id, name, packageName, descriptionList, startUpDelay) {
    * 点击控件
    *
    * @param {Widget} widget 控件
+   * @param {number} delay 点击延迟，默认2000ms
    */
-  this.click = (widget) => {
+  this.click = (widget, delay) => {
     // 控件不存在
     if (!widget) {
       return false
     }
 
+    let delay = delay || 2000
+
     // 控件可点击
     if (widget.clickable() === true) {
+      sleep(delay)
       let result = widget.click()
-      sleep(500)
       return result
     }
 
     let rect = widget.bounds()
+    sleep(delay)
     let result = click(rect.centerX(), rect.centerY())
-    sleep(500)
+    return result
+  }
+
+  /**
+   * 长按控件
+   *
+   * @param {Widget} widget 控件
+   * @param {number} delay 点击延迟，默认2000ms
+   */
+  this.longClick = (widget, delay) => {
+    // 控件不存在
+    if (!widget) {
+      return false
+    }
+
+    let delay = delay || 1000
+
+    // 控件可点击
+    if (widget.clickable() === true) {
+      sleep(delay)
+      let result = widget.longClick()
+      return result
+    }
+
+    let rect = widget.bounds()
+    sleep(delay)
+    let result = longClick(rect.centerX(), rect.centerY())
     return result
   }
 
@@ -401,13 +459,25 @@ function AppObject(id, name, packageName, descriptionList, startUpDelay) {
 const APP = new AppObject()
 
 /**
- * 飞猪签到里程
+ * 今日校园
+ */
+function signInCpdaily() {
+  APP.click(getWidget('签到领福利', 'text'))
+
+  return APP.click(getWidget('点此打卡', 'text'))
+}
+
+/**
+ * 飞猪
  */
 function signInFliggy() {
   APP.click(getWidget('里程', 'text'))
-  APP.click(getWidget('立即签到', 'text'))
+  return APP.click(getWidget('立即签到', 'text'))
 }
 
+/**
+ * 京东
+ */
 function signInJD() {
   APP.click(getWidget('领京豆', 'text'))
   APP.click(getWidget('签到领京豆', 'text'))
@@ -438,12 +508,12 @@ function signInJianShu() {
  */
 function signInMsg() {
   sleep(5000)
-  App.click(getWidget('home_ll_btn1', 'id'))
-  App.click(getWidget('确定', 'text'))
+  APP.click(getWidget('home_ll_btn1', 'id'))
+  APP.click(getWidget('确定', 'text'))
 }
 
 /**
- * 哔哩哔哩签到辣条
+ * 哔哩哔哩
  */
 function signInBilibili() {
   waitForActivity('tv.danmaku.bili.MainActivityV2') // 等待B站首页出现
@@ -456,7 +526,7 @@ function signInBilibili() {
 }
 
 /**
- * 支付宝签到积分
+ * 支付宝
  */
 function signInAlipay() {
   APP.click(getWidget('我的', 'text'))
@@ -472,7 +542,7 @@ function signInAlipay() {
 }
 
 /**
- * 淘宝淘金币签到
+ * 淘宝
  */
 function signInTaobao() {
   APP.click(getWidget('领淘金币', 'desc'))
@@ -490,25 +560,6 @@ function signInQQMusic() {
 }
 
 /**
- * 百度地图
- */
-function signInBaiduMap() {
-  APP.click(getWidget('个人中心', 'desc'))
-  APP.click(getWidget('签  到', 'text'))
-  APP.click(getWidget(/[0-9]+人已签到/, 'textMatches'))
-
-  sleep(1000)
-  if (text('立即领取').exists()) {
-    text('立即领取').click()
-    text('去领金币').findOne(4000).parent().click()
-
-    textMatches(/\+[0-9]+金币/)
-      .findOne(4000)
-      .click()
-  }
-}
-
-/**
  * 饿了么
  */
 function signInEle() {
@@ -521,24 +572,7 @@ function signInEle() {
   APP.click(getWidget('分享可再翻一次卡牌', 'text'))
   APP.click(getWidget('微信', 'text'))
   APP.click(getWidget('返回', 'desc'))
-  APP.click(getWidget('品质联盟', 'textMatches'))
-}
-
-/**
- * 今日校园
- */
-function signInCpdaily() {
-  APP.click(getWidget('签到领福利', 'text'))
-
-  APP.click(getWidget('点此打卡', 'text'))
-}
-
-/**
- * 美团红包签到
- */
-function signInMeituan() {
-  APP.click(getWidget('红包签到', 'desc'))
-  APP.click(getWidget('cf1ef851fe4302b10efeb90541e1d6f45595', 'text'))
+  return APP.click(getWidget('品质联盟', 'textMatches'))
 }
 
 /**
@@ -546,21 +580,88 @@ function signInMeituan() {
  */
 function Pinduoduo() {
   if (id('h_').exists()) {
-    APP.click(getWidget('h_', 'id')) // 有时有广告弹窗，需要关闭
+    APP.click(getWidget('h_', 'id', null, 1000)) // 有时有广告弹窗，需要关闭
   }
   if (id('i_').exists()) {
-    APP.click(getWidget('i_', 'id')) // 有时有广告弹窗，需要关闭
+    APP.click(getWidget('i_', 'id', null, 1000)) // 有时有广告弹窗，需要关闭
   }
   if (id('ii').exists()) {
-    APP.click(getWidget('ii', 'id')) // 有时有广告弹窗，需要关闭
+    APP.click(getWidget('ii', 'id', null, 1000)) // 有时有广告弹窗，需要关闭
   }
   if (id('is').exists()) {
-    APP.click(getWidget('is', 'id')) // 有时有广告弹窗，需要关闭
+    APP.click(getWidget('is', 'id', null, 1000)) // 有时有广告弹窗，需要关闭
   }
+  APP.click(getWidget('ed', 'id', null, 1000)) // 有时有广告弹窗，需要关闭
 
   APP.click(getWidget('现金签到', 'text'))
   APP.click(getWidget(/签到领.*元/, 'textMatches'))
   // APP.click(getWidget('继续领取其他福利', 'text'))
+}
+
+/**
+ * 美团
+ */
+function signInMeituan() {
+  APP.click(getWidget('红包签到', 'desc'))
+  APP.click(getWidget('cf1ef851fe4302b10efeb90541e1d6f45595', 'text'))
+}
+
+/**
+ * 百度地图
+ */
+function signInBaiduMap() {
+  APP.click(getWidget('个人中心', 'desc'))
+  sleep(2000)
+  APP.click(getWidget('签  到', 'text'))
+  APP.click(getWidget(/[0-9]+人已签到/, 'textMatches'))
+
+  sleep(1000)
+  if (text('立即领取').exists()) {
+    APP.click(getWidget('立即领取', 'text'))
+    APP.click(getWidget('去领金币', 'text', 'parent'))
+
+    let widget = getWidget(/\+[0-9]+金币/, 'textMatches')
+    if (widget) {
+      toastLog(widget.text())
+      return true
+    }
+    return false
+  }
+}
+
+/**
+ * 百度文库
+ */
+function signInWenku() {
+  waitForActivity('com.baidu.wenku.main.view.activity.MainFragmentActivity') // 首页
+  APP.click(getWidget('签到有奖', 'text'))
+
+  let widget = getWidget(/[0-9]+文库豆/, 'textMatches')
+  if (!widget) {
+    return false
+  }
+  toastLog('获得' + widget.text())
+  return true
+}
+
+/**
+ * 百度网盘
+ */
+function signInBaiduNetdisk() {
+  waitForActivity('com.baidu.netdisk.ui.MainActivity')
+  sleep(1000)
+  APP.click(getWidget('我的', 'text'))
+
+  APP.click(getWidget(/待领取[0-9]+积分/, 'textMatches'))
+  sleep(5000)
+
+  let widget = getWidget('currentScore', 'id')
+  if (!widget) {
+    return false
+  }
+
+  toastLog('百度网盘当前积分：' + widget.text())
+  return true
 }
 
 /**
@@ -610,7 +711,7 @@ function signInQDReader() {
 }
 
 /**
- * 网易云音乐签到
+ * 网易云音乐
  */
 function signInCloudMusic() {
   APP.click(getWidget('抽屉菜单', 'desc'))
@@ -618,7 +719,7 @@ function signInCloudMusic() {
 }
 
 /**
- * 大众点评签到
+ * 大众点评
  */
 function signInDianping() {
   APP.click(getWidget('关闭', 'desc', false, 2000))
@@ -628,7 +729,7 @@ function signInDianping() {
 }
 
 /**
- * 腾讯wifi管家签到
+ * 腾讯wifi管家
  */
 function signInWifimanager() {
   APP.click(getWidget('sm', 'id', 2000))
@@ -638,7 +739,7 @@ function signInWifimanager() {
 }
 
 /**
- * 全民K歌签到
+ * 全民K歌
  */
 function signInKaraoke() {
   APP.click(getWidget('h7b', 'id'))
@@ -661,9 +762,10 @@ function signInLiwo() {
 }
 
 /**
- * CSDN签到
+ * CSDN
  */
 function signInCSDN() {
+  id('iv_close').findOne().click()
   sleep(6000)
   click(971, 2097) // 点击"我的"
   APP.click(getWidget('签到', 'text'))
@@ -733,6 +835,23 @@ function signInXiaomiGameCenter() {
 }
 
 /**
+ * 小米视频
+ */
+function signInXiaomiVideo() {
+  waitForActivity('com.miui.video.feature.main.MainTabActivity')
+  APP.click(getWidget('我的', 'text'))
+
+  sleep(1000)
+  APP.click(getWidget('金币任务', 'text'))
+  waitForActivity('com.miui.video.feature.h5.H5Activity') // 进入签到界面
+
+  APP.click(getWidget('领取', 'textContains'))
+  APP.click(getWidget('确定', 'textContains'))
+  toastLog('签到成功')
+  return true
+}
+
+/**
  * 央视频
  */
 function signInYangshipin() {
@@ -766,7 +885,7 @@ function signInWeilai() {
 }
 
 /**
- * WPS
+ * WPS Office
  */
 function signInWPS() {
   APP.waitForActivity('cn.wps.moffice.main.local.HomeRootActivity')
@@ -775,7 +894,157 @@ function signInWPS() {
 
   APP.click(getWidget('签到', 'text'))
 
-  return APP.click(getWidget('签到', 'text'))
+  sleep(1500)
+  let result = APP.click(getWidget('签到', 'text'))
+  return result
+}
+
+function AppXiaoheihe() {
+  /**
+   * 首页向下划屏幕
+   */
+  this.scrollHomeScreen = () => {
+    let widget = getWidget('rv', 'id')
+    if (widget) {
+      widget.scrollForward()
+      sleep(1500)
+      return true
+    }
+    return false
+  }
+
+  /**
+   * 分享评论到社交平台
+   */
+  this.shareMsg = () => {
+    waitForActivity('com.max.xiaoheihe.MainActivity') // 等待首页出现
+    APP.click(getWidget('首页')) // 刷新
+
+    APP.click(getWidget(/.*·[0-9]+.*前/, 'textMatches')) // 进入正文单页
+    waitForActivity('com.max.xiaoheihe.module.bbs.PostActivity') // 等待正文单页出现
+
+    APP.click(getWidget('vg_edit_comment_comment', 'id')) // 跳转评论
+
+    APP.longClick(getWidget('vg_comments_detail', 'id')) // 长按评论
+    sleep(3000)
+
+    APP.click(getWidget('分享', 'text'))
+    APP.click(getWidget('微信', 'text'))
+
+    waitForActivity('com.tencent.mm.ui.transmit.SelectConversationUI') // 等待微信界面出现
+    sleep(3000)
+    back() // 退出微信界面
+
+    sleep(2000)
+    APP.click(getWidget('iv_appbar_nav_button', 'id')) // 返回首页
+
+    return true
+  }
+
+  /**
+   * 分享头条到社交平台
+   */
+  this.shareContent = () => {
+    waitForActivity('com.max.xiaoheihe.MainActivity') // 等待首页出现
+    APP.click(getWidget('首页')) // 刷新
+
+    APP.click(getWidget(/.*·[0-9]+.*前/, 'textMatches')) // 进入正文单页
+    waitForActivity('com.max.xiaoheihe.module.bbs.PostActivity') // 等待正文单页出现
+
+    APP.click(getWidget('iv_appbar_action_button_x', 'id')) // 点击分享
+
+    sleep(1000)
+
+    APP.click(getWidget('微信好友', 'text'))
+
+    waitForActivity('com.tencent.mm.ui.transmit.SelectConversationUI') // 等待微信界面出现
+    sleep(3000)
+    back() // 退出微信界面
+
+    sleep(2000)
+    APP.click(getWidget('iv_appbar_nav_button', 'id')) // 返回首页
+
+    return true
+  }
+
+  /**
+   * 完成5次点赞
+   */
+  this.fiveLike = () => {
+    toastLog('开始进行点赞')
+    let likeCount = 0 // 当前点赞次数
+
+    while (true) {
+      let widgetList = getWidget(
+        /.*·[0-9]+.*前/,
+        'textMatches',
+        false,
+        null,
+        true
+      )
+      if (!widgetList) {
+        return false
+      }
+
+      for (let widgetCount = 0; likeCount < 5; ) {
+        let widget = widgetList[widgetCount]
+
+        APP.click(widget) // 进入正文单页
+        sleep(2000) // 缓冲时间
+
+        let likeBtn = getWidget('vg_edit_comment_award', 'id') // 点赞按钮
+        if (!APP.click(likeBtn)) {
+          return false
+        }
+
+        APP.click(getWidget('iv_appbar_nav_button', 'id')) // 返回按钮
+
+        // 五次结束循环
+        if (++likeCount >= 5) {
+          return true
+        }
+        toastLog('当前点赞次数：' + likeCount)
+
+        // 循环3次，重新获取列表
+        if (++widgetCount == 3) {
+          break
+        }
+      }
+
+      sleep(2500)
+      this.scrollHomeScreen() // 下滑屏幕
+      sleep(2500)
+    }
+  }
+}
+/**
+ * 小黑盒
+ */
+function signInXiaoheihe() {
+  let app = new AppXiaoheihe()
+  APP.click(getWidget('首页'))
+
+  if (app.fiveLike()) {
+    toastLog('完成点赞5次')
+    return true
+  }
+  if (app.shareContent()) {
+    toastLog('完成分享头条到社交平台')
+  }
+  if (app.shareMsg()) {
+    toastLog('完成分享评论到社交平台')
+  }
+
+  return true
+}
+
+/**
+ * UC浏览器
+ */
+function signInUCMobile() {
+  waitForActivity('com.uc.browser.InnerUCMobile')
+  APP.click(getWidget('我 的', 'text'), 3000)
+  return APP.click(getWidget('签到', 'text'), 3000)
 }
 
 function main() {
@@ -796,14 +1065,19 @@ function main() {
       } else {
         toastLog(appObject.name + '启动中...')
       }
-      APP.click(getWidget(/.*跳.*过.*/, 'textMatches'))
+      APP.click(
+        getWidget(/.*跳.*过.*/, 'textMatches', false, appObject.startUpDelay)
+      )
       sleep(2000)
       let isSuccess = appObject.signIn()
       if (isSuccess === true) {
         toastLog('已完成' + appObject.name + '的签到')
       }
-      sleep(2000)
+      sleep(3000)
       appObject.killProgress()
+      sleep(3000)
+      home()
+      sleep(10000) // 时间够长，才可以切换app
     }
   })
 
@@ -812,7 +1086,6 @@ function main() {
   }
   // exit()
 }
-main()
 
 /**
  * 获得一个控件
@@ -821,9 +1094,9 @@ main()
  * @param {string} method 指定方法，默认text
  * @param {boolean} parent 是否要寻找父控件，默认false
  * @param {number} delay 指定延迟时间，默认OPERATION_DELAY
- * @param {string} widgetNumber 默认为One, 填''(空字符串)表示findAll
+ * @param {boolean} isFindAll 默认为false
  */
-function getWidget(str, method, parent, delay, widgetNumber) {
+function getWidget(str, method, parent, delay, isFindAll) {
   if (!str) {
     return null
   }
@@ -831,7 +1104,10 @@ function getWidget(str, method, parent, delay, widgetNumber) {
   let method = method || 'text'
   let parent = parent || false
   let delay = delay || OPERATION_DELAY
-  let widgetNumber = widgetNumber || 'One'
+  let widgetNumber = 'One'
+  if (isFindAll) {
+    widgetNumber = ''
+  }
   let widget = null
 
   let funcStr =
@@ -840,8 +1116,5 @@ function getWidget(str, method, parent, delay, widgetNumber) {
     return (widget = eval(funcStr))
   }
 
-  if (widget === null) {
-    return null
-  }
   return eval(funcStr + '.parent()')
 }
