@@ -7,7 +7,7 @@ let appData = [
     name: '今日校园',
     packageName: 'com.wisedu.cpdaily',
     descriptionList: ['签到领福利'],
-    startUpDelay: null,
+    startUpDelay: 8000,
   },
   {
     id: 'Fliggy',
@@ -484,7 +484,7 @@ const APP = new AppObject()
  */
 function signInCpdaily() {
   APP.waitForActivity('com.wisorg.wisedu.home.ui.HomeActivity')
-  
+
   APP.click(getWidget('签到领福利', 'text'))
 
   return APP.click(getWidget('点此打卡', 'text'))
@@ -1188,6 +1188,7 @@ function main() {
 
     let isSelected = ui[appObject.id].checked
     if (isSelected === true) {
+      ui[appObject.id].checked = false
       selectionLength += 1
 
       let hasApp = appObject.launch()
