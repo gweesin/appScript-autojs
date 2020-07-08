@@ -76,21 +76,21 @@ let appData = [
     id: 'Pinduoduo',
     name: '拼多多',
     packageName: 'com.xunmeng.pinduoduo',
-    descriptionList: [],
+    descriptionList: ['现金签到'],
     startUpDelay: null,
   },
   {
     id: 'Meituan',
     name: '美团',
     packageName: 'com.sankuai.meituan',
-    descriptionList: [],
+    descriptionList: ['红包签到'],
     startUpDelay: null,
   },
   {
     id: 'BaiduMap',
     name: '百度地图',
     packageName: 'com.baidu.BaiduMap',
-    descriptionList: [],
+    descriptionList: ['签到领金币'],
     startUpDelay: null,
   },
   {
@@ -111,63 +111,63 @@ let appData = [
     id: 'Tieba',
     name: '百度贴吧',
     packageName: 'com.baidu.tieba',
-    descriptionList: [],
+    descriptionList: ['贴吧一键签到'],
     startUpDelay: null,
   },
   {
     id: 'QDReader',
     name: '起点读书',
     packageName: 'com.qidian.QDReader',
-    descriptionList: [],
+    descriptionList: ['签到', '抽奖','看视频抽奖'],
     startUpDelay: null,
   },
   {
     id: 'CloudMusic',
     name: '网易云音乐',
     packageName: 'com.netease.cloudmusic',
-    descriptionList: [],
+    descriptionList: ['签到赚云贝'],
     startUpDelay: null,
   },
   {
     id: 'Dianping',
     name: '大众点评',
     packageName: 'com.dianping.v1',
-    descriptionList: [],
+    descriptionList: ['签到领奖'],
     startUpDelay: null,
   },
   {
     id: 'Wifimanager',
     name: '腾讯wifi管家',
     packageName: 'com.tencent.wifimanager',
-    descriptionList: [],
+    descriptionList: ['签到赚wifi豆'],
     startUpDelay: null,
   },
   {
     id: 'Karaoke',
     name: '全民K歌',
     packageName: 'com.tencent.karaoke',
-    descriptionList: [],
+    descriptionList: ['签到领鲜花'],
     startUpDelay: null,
   },
   {
     id: 'Liwo',
     name: '梨涡',
     packageName: 'com.jd.campus',
-    descriptionList: [],
+    descriptionList: ['每日签到','分享2次个人主页(×)','关注3位好友(×)','完成发布2条动态(×)','点赞动态5次(×)','评论动态2次(×)'],
     startUpDelay: null,
   },
   {
     id: 'CSDN',
     name: 'CSDN',
     packageName: 'net.csdn.csdnplus',
-    descriptionList: [],
+    descriptionList: ['签到赢福利'],
     startUpDelay: null,
   },
   {
     id: 'Etao',
     name: '一淘',
     packageName: 'com.taobao.etao',
-    descriptionList: [],
+    descriptionList: ['签到领集分宝'],
     startUpDelay: null,
   },
   {
@@ -325,8 +325,6 @@ threads.start(function () {
     }
   }
 
-  log('ui.scripts.setDataSource(appList) appList=')
-  log(appList)
   // 设置list内容, 添加点击事件
   ui.run(function () {
     ui.scripts.setDataSource(appList)
@@ -410,13 +408,13 @@ function AppObject(id, name, packageName, descriptionList, startUpDelay) {
 
     // 控件可点击
     if (widget.clickable() === true) {
-      sleep(delay)
+      sleep(clickDelay)
       let result = widget.click()
       return result
     }
 
     let rect = widget.bounds()
-    sleep(delay)
+    sleep(clickDelay)
     let result = click(rect.centerX(), rect.centerY())
     return result
   }
@@ -583,18 +581,21 @@ function signInEle() {
 
   APP.click(getWidget('立即签到', 'text'))
 
-  APP.click(getWidget('品质联盟', 'textMatches'))
+  APP.click(getWidget('¥', 'text'))
 
   APP.click(getWidget('分享可再翻一次卡牌', 'text'))
   APP.click(getWidget('微信', 'text'))
-  APP.click(getWidget('返回', 'desc'))
-  return APP.click(getWidget('品质联盟', 'textMatches'))
+  sleep(2000)
+  back()
+  return APP.click(getWidget('¥', 'text'))
 }
 
 /**
  * 拼多多
  */
 function Pinduoduo() {
+  waitForActivity('com.xunmeng.pinduoduo.ui.activity.HomeActivity')
+
   if (id('h_').exists()) {
     APP.click(getWidget('h_', 'id', null, 1000)) // 有时有广告弹窗，需要关闭
   }
@@ -610,7 +611,7 @@ function Pinduoduo() {
   APP.click(getWidget('ed', 'id', null, 1000)) // 有时有广告弹窗，需要关闭
 
   APP.click(getWidget('现金签到', 'text'))
-  APP.click(getWidget(/签到领.*元/, 'textMatches'))
+  return APP.click(getWidget(/签到领.*元/, 'textMatches'))
   // APP.click(getWidget('继续领取其他福利', 'text'))
 }
 
@@ -618,6 +619,8 @@ function Pinduoduo() {
  * 美团
  */
 function signInMeituan() {
+  waitForActivity('com.meituan.android.pt.homepage.activity.MainActivity')
+
   APP.click(getWidget('红包签到', 'desc'))
   APP.click(getWidget('cf1ef851fe4302b10efeb90541e1d6f45595', 'text'))
 }
@@ -626,6 +629,8 @@ function signInMeituan() {
  * 百度地图
  */
 function signInBaiduMap() {
+  waitForActivity('com.baidu.baidumaps.MapsActivity')
+  
   APP.click(getWidget('个人中心', 'desc'))
   sleep(2000)
   APP.click(getWidget('签  到', 'text'))
@@ -684,19 +689,22 @@ function signInBaiduNetdisk() {
  * 百度贴吧签到
  */
 function signInTieba() {
+  waitForActivity('com.tencent.server.fore.QuickLoadActivity')
+  
   APP.click(getWidget('进吧', 'text'))
   APP.click(getWidget('签到', 'desc'))
 
   // APP.click(getWidget('开始签到', 'text'))
   toastLog('目前暂不支持1-6级贴吧自动签到')
   sleep(2000)
-  click(550, 350)
+  return click(550, 350)
 }
 
 /**
  * 起点读书
  */
 function signInQDReader() {
+  waitForActivity('com.qidian.QDReader.ui.activity.MainGroupActivity')
   APP.click(getWidget('fClose', 'id', false, 2000))
   APP.click(getWidget(/领[0-9]+点/, 'textMatches'))
   APP.click(getWidget('今日奖励翻倍', 'text'))
@@ -724,6 +732,7 @@ function signInQDReader() {
       break
     }
   }
+  return true
 }
 
 /**
@@ -731,7 +740,7 @@ function signInQDReader() {
  */
 function signInCloudMusic() {
   APP.click(getWidget('抽屉菜单', 'desc'))
-  APP.click(getWidget('签到', 'text'))
+  return APP.click(getWidget('签到', 'text'))
 }
 
 /**
@@ -741,48 +750,54 @@ function signInDianping() {
   APP.click(getWidget('关闭', 'desc', false, 2000))
   APP.click(getWidget('我的', 'text'))
   APP.click(getWidget('每日福利', 'text'))
-  APP.click(getWidget('签到领奖', 'text'))
+  return APP.click(getWidget('签到领奖', 'text'))
 }
 
 /**
  * 腾讯wifi管家
  */
 function signInWifimanager() {
-  APP.click(getWidget('sm', 'id', 2000))
+  waitForActivity('com.tencent.server.fore.QuickLoadActivity')
+  APP.click(getWidget('sm', 'id', false,2000))
   APP.click(getWidget('我的', 'text'))
   APP.click(getWidget('签到', 'text'))
-  APP.click(getWidget('b58', 'id', 2000))
+  return APP.click(getWidget('b58', 'id', false,2000))
 }
 
 /**
  * 全民K歌
  */
 function signInKaraoke() {
-  APP.click(getWidget('h7b', 'id'))
+  waitForActivity('com.tencent.karaoke.module.main.ui.MainTabActivity')
+  APP.click(getWidget('任务', 'desc'))
+  
+  waitForActivity('com.tencent.karaoke.module.hippy.ui.HippyInstanceActivity')
   APP.click(getWidget('立刻签到', 'desc'))
-  APP.click(getWidget('立即领取', 'desc'))
+  return APP.click(getWidget('立即领取', 'desc'))
 }
 
 /**
  * 梨涡
  */
 function signInLiwo() {
-  APP.click(getWidget('ivCloseAd', 'id', false, 2000))
-  APP.click(getWidget('ivEventBg', 'id'))
-  APP.click(getWidget('点击领取', 'text'))
-  APP.click(getWidget('欣然收下', 'text'))
+  waitForActivity('com.jd.campus.android.yocial.MainActivity')
 
-  // APP.click(getWidget('我的', 'text'))
-  // APP.click(getWidget('签到领钱', 'text'))
-  // APP.click(getWidget('点击领取', 'text'))
+  APP.click(getWidget('ivCloseAd', 'id', false, 2000)) // 广告
+  APP.click(getWidget('ivEventBg', 'id', false, 2000))
+  APP.click(getWidget('点击领取', 'text'))
+  return APP.click(getWidget('欣然收下', 'text'))
 }
 
 /**
  * CSDN
  */
 function signInCSDN() {
-  id('iv_close').findOne().click()
-  sleep(6000)
+  waitForActivity('net.csdn.csdnplus.activity.MainActivity') // 等待首页出现
+
+  APP.click(getWidget('cancel', 'id',false, 2000)) // 关闭更新提示窗口
+  APP.click(getWidget('btnAlertDialogNegative', 'id',false, 2000)) // 关闭消息通知窗口
+  APP.click(getWidget('iv_close', 'id',false, 2000)) // 关闭广告
+
   click(971, 2097) // 点击"我的"
   APP.click(getWidget('签到', 'text'))
   sleep(3000)
@@ -795,10 +810,11 @@ function signInCSDN() {
  * 一淘
  */
 function signInEtao() {
-  APP.click(getWidget('home_market_close', 'id')) // 首页有可能弹出来的广告
+  APP.click(getWidget('home_market_close', 'id',false, 1000)) // 首页有可能弹出来的广告
+  APP.click(getWidget('home_market_close', 'id',false, 1000)) // 关闭“开启消息通知”
 
   APP.click(getWidget('天天领钱', 'text'))
-  APP.click(getWidget('点我签到领钱', 'text'))
+  return APP.click(getWidget('点我签到领钱', 'text'))
 }
 
 /**
@@ -806,7 +822,7 @@ function signInEtao() {
  */
 function signInEfuzhou() {
   APP.click(getWidget('我的', 'text'))
-  APP.click(getWidget('签到领福豆', 'text'))
+  return APP.click(getWidget('签到领福豆', 'text'))
 }
 
 /**
@@ -815,7 +831,7 @@ function signInEfuzhou() {
 function signInYoudaoNote() {
   APP.waitForActivity('com.youdao.note.activity2.MainActivity')
   APP.click(getWidget('我的', 'text'))
-  APP.click(getWidget('签到得空间', 'text'))
+  return APP.click(getWidget('签到得空间', 'text'))
 }
 
 /**
