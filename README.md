@@ -67,6 +67,8 @@
 - 支付宝每日花呗红包
 - 支付宝体育服务早期打卡(TODO)
 
+![demo-v1.0.2](https://github.com/Changuixin/appScript-autojs/blob/master/demo/v1.0.2.png)
+
 ### TODO
 
 1. 添加早起打卡类应用
