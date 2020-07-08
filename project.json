@@ -1,10 +1,34 @@
 {
-    "name": "app自动化签到脚本",
+    "assets": [],
+    "build": {
+      "build_id": "DC63B6E8-4",
+      "build_number": 4,
+      "build_time": 1594178796670,
+      "release": false
+    },
+    "encryptLevel": 1,
+    "useFeatures": [],
+    "icon": "res/icon.png",
+    "launchConfig": {
+      "displaySplash": true,
+      "hideLogs": false,
+      "splashIcon": "res/splashIcon.png",
+      "splashText": "请确保每个app没有提示开启通知权限等弹窗",
+      "stableMode": false
+    },
     "main": "main.js",
-    "ignore": [
-        "build"
-    ],
-    "packageName": "com.249.signin",
-    "versionName": "1.0.1",
-    "versionCode": 1
-}
+    "name": "APP自动化签到脚本",
+    "optimization": {
+      "removeOpenCv": true,
+      "unusedResources": true
+    },
+    "packageName": "com.leo.signin",
+    "scripts": {},
+    "signingConfig": {
+      "alias": "249",
+      "keystore": "/storage/emulated/0/脚本/.keystore/autojspro.jks",
+      "uuid": "a1dc14a6-6a98-4dbb-88de-c07230eec6e2"
+    },
+    "versionCode": 1,
+    "versionName": "1.0.2"
+  }
